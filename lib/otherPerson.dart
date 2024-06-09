@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 
 import 'creator.dart';
 
-class OtherPerson extends StatefulWidget {
+class ComparePremises extends StatefulWidget {
   final String chatIdentifier;
+  final List<QuestionAnswerPair> ownAnswers;
   final List<QuestionAnswerPair> otherPersonsAnswers;
 
-  const OtherPerson({super.key, required this.chatIdentifier, required this.otherPersonsAnswers});
+  const ComparePremises(
+      {super.key, required this.chatIdentifier, required this.otherPersonsAnswers, required this.ownAnswers});
 
   @override
-  _OtherPersonState createState() => _OtherPersonState();
+  _ComparePremisesState createState() => _ComparePremisesState();
 }
 
-class _OtherPersonState extends State<OtherPerson> with TickerProviderStateMixin {
+class _ComparePremisesState extends State<ComparePremises> with TickerProviderStateMixin {
   final scrollController = ScrollController();
   final questionNotifier = QuestionNotifier();
   String chatIdentifier = '';
@@ -34,7 +36,16 @@ class _OtherPersonState extends State<OtherPerson> with TickerProviderStateMixin
     scrollLogic();
   }
 
-  int getAnswer(String questionID) {
+  int getOwnAnswer(String questionID) {
+    final answer = widget.ownAnswers.firstWhereOrNull((element) => element.question == questionID);
+    if (answer != null) {
+      return answer.answer;
+    } else {
+      return 0;
+    }
+  }
+
+  int getOtherAnswer(String questionID) {
     final answer = widget.otherPersonsAnswers.firstWhereOrNull((element) => element.question == questionID);
     if (answer != null) {
       return answer.answer;
@@ -68,47 +79,34 @@ class _OtherPersonState extends State<OtherPerson> with TickerProviderStateMixin
           isVisible: true)
     ];
 
-    return buildNewQuestions(context, questionNotifier.questions, creators);
+    return buildNewQuestions(context, questionNotifier.premises, creators);
   }
 
   Widget buildNewQuestions(BuildContext context, List<Question> questionItems, List<Creator> creators) {
     return Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ListView(
             controller: scrollController,
             children: [
+              const SizedBox(
+                height: 15,
+              ),
+              singleQuestion(context, questionNotifier.currentQuestion, creators[0]),
+              const SizedBox(
+                height: 15,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 15,
+              ),
               ListView.separated(
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
-                itemCount: questionItems.length,
+                itemCount: questionNotifier.premises.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    //big container that holds everything, a block
-                    width: context.deviceWidth * 0.1,
-
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                      child: Column(
-                        children: [
-                          ListTile(
-                              title: SingleQuestion(
-                            question: questionItems[index],
-                            creator: creators[0],
-                            changeable: false,
-                            answer: getAnswer(questionItems[index].questionID),
-                            statement: questionItems[index].isStatement,
-                            secondAnswer: 0,
-                          )),
-                        ],
-                      ),
-                    ),
-                  );
+                  return singleQuestion(context, questionNotifier.premises[index], creators[0]);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(
@@ -123,5 +121,35 @@ class _OtherPersonState extends State<OtherPerson> with TickerProviderStateMixin
             ],
           ),
         ));
+  }
+
+  Widget singleQuestion(BuildContext context, Question question, Creator creator) {
+    return Container(
+      //big container that holds everything, a block
+      width: context.deviceWidth * 0.1,
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey, width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: SingleQuestion(
+                question: question,
+                creator: creator,
+                changeable: false,
+                answer: getOtherAnswer(question.questionID),
+                statement: question.isStatement,
+                secondAnswer: getOwnAnswer(question.questionID),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

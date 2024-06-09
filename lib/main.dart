@@ -24,6 +24,19 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  ColorScheme getColorScheme() => ColorScheme.fromSeed(seedColor: Colors.indigo).copyWith(
+        primary: Colors.indigo,
+        secondary: Colors.black,
+        surface: Colors.white,
+        background: Colors.white,
+        error: Colors.red,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: Colors.black,
+        onBackground: Colors.black,
+        onError: Colors.white,
+      );
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -46,7 +59,7 @@ class MyApp extends StatelessWidget {
           //
           // This works for code too, not just values: Most code changes can be
           // tested with just a hot reload.
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: getColorScheme(),
           useMaterial3: true,
         ),
         home: const Home(),

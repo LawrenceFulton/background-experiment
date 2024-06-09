@@ -2,327 +2,91 @@ import 'package:background_experiment/question.dart';
 import 'package:background_experiment/questionNotifier.dart';
 
 class QuestionCreator {
+  Question _generateQuestion(String questionID, String text, String headline) {
+    return Question(
+      questionID: questionID,
+      text: text,
+      headline: headline,
+      isStatement: false,
+      creatorID: '',
+      wasEdited: false,
+      userID: '',
+    );
+  }
+
   void setErbschaftssteuerQuestions() {
-    Question q1 = Question(
-      questionID: '1',
-      text: 'Sollte die Erbschaftssteuer abgeschafft werden?',
-      headline: 'Erbschaftssteuer',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
+    Question question = _generateQuestion('q0', 'Sollte die Erbschaftssteuer abgeschafft werden?', 'Erbschaftssteuer');
+    Question p1 = _generateQuestion('p1', 'Sollte die Erbschaftssteuer erhöht werden?', 'Erbschaftssteuer');
+    Question p2 = _generateQuestion('p2', 'Sollte die Erbschaftssteuer gesenkt werden?', 'Erbschaftssteuer');
+    Question p3 = _generateQuestion('p3', 'Sollte die Erbschaftssteuer gleich bleiben?', 'Erbschaftssteuer');
+    Question p4 =
+        _generateQuestion('p4', 'Sollte die Erbschaftssteuer für Unternehmen abgeschafft werden?', 'Erbschaftssteuer');
 
-    Question q2 = Question(
-      questionID: '2',
-      text: 'Sollte die Erbschaftssteuer erhöht werden?',
-      headline: 'Erbschaftssteuer',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q3 = Question(
-      questionID: '3',
-      text: 'Sollte die Erbschaftssteuer gesenkt werden?',
-      headline: 'Erbschaftssteuer',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q4 = Question(
-      questionID: '4',
-      text: 'Sollte die Erbschaftssteuer gleich bleiben?',
-      headline: 'Erbschaftssteuer',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q5 = Question(
-      questionID: '5',
-      text: 'Sollte die Erbschaftssteuer für Unternehmen abgeschafft werden?',
-      headline: 'Erbschaftssteuer',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    QuestionNotifier().questions = [q1, q2, q3, q4, q5];
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4];
   }
 
   void setKlimawandelQuestions() {
-    Question q1 = Question(
-      questionID: '1',
-      text: 'Sollte mehr in erneuerbare Energien investiert werden?',
-      headline: 'Klimawandel',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
+    Question question = _generateQuestion('q0', 'Sollte mehr in erneuerbare Energien investiert werden?', 'Klimawandel');
+    Question p1 = _generateQuestion('p1', 'Sollte die CO2-Steuer erhöht werden?', 'Klimawandel');
+    Question p2 = _generateQuestion('p2', 'Sollte der Kohleabbau sofort gestoppt werden?', 'Klimawandel');
+    Question p3 =
+        _generateQuestion('p3', 'Sollte der Ausbau des öffentlichen Verkehrs vorangetrieben werden?', 'Klimawandel');
+    Question p4 = _generateQuestion('p4', 'Sollten Flugreisen stärker reguliert werden?', 'Klimawandel');
 
-    Question q2 = Question(
-      questionID: '2',
-      text: 'Sollte die CO2-Steuer erhöht werden?',
-      headline: 'Klimawandel',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q3 = Question(
-      questionID: '3',
-      text: 'Sollte der Kohleabbau sofort gestoppt werden?',
-      headline: 'Klimawandel',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q4 = Question(
-      questionID: '4',
-      text: 'Sollte der Ausbau des öffentlichen Verkehrs vorangetrieben werden?',
-      headline: 'Klimawandel',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q5 = Question(
-      questionID: '5',
-      text: 'Sollten Flugreisen stärker reguliert werden?',
-      headline: 'Klimawandel',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    QuestionNotifier().questions = [q1, q2, q3, q4, q5];
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4];
   }
 
   void setGleichberechtigungQuestions() {
-    Question q1 = Question(
-      questionID: '1',
-      text: 'Sollte es eine Frauenquote in Unternehmen geben?',
-      headline: 'Gleichberechtigung',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
+    Question question =
+        _generateQuestion('q0', 'Sollte es eine Frauenquote in Unternehmen geben?', 'Gleichberechtigung');
+    Question p1 = _generateQuestion('p1', 'Sollte es gleiche Bezahlung für gleiche Arbeit geben?', 'Gleichberechtigung');
+    Question p2 =
+        _generateQuestion('p2', 'Sollte es strengere Gesetze gegen Diskriminierung geben?', 'Gleichberechtigung');
+    Question p3 =
+        _generateQuestion('p3', 'Sollte Elternzeit gleichermaßen für Männer und Frauen gelten?', 'Gleichberechtigung');
+    Question p4 =
+        _generateQuestion('p4', 'Sollte Elternzeit gleichermaßen für Männer und Frauen gelten?', 'Gleichberechtigung');
+    Question p5 =
+        _generateQuestion('p5', 'Sollte der Gender Pay Gap gesetzlich abgeschafft werden?', 'Gleichberechtigung');
 
-    Question q2 = Question(
-      questionID: '2',
-      text: 'Sollte es gleiche Bezahlung für gleiche Arbeit geben?',
-      headline: 'Gleichberechtigung',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q3 = Question(
-      questionID: '3',
-      text: 'Sollte es strengere Gesetze gegen Diskriminierung geben?',
-      headline: 'Gleichberechtigung',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q4 = Question(
-      questionID: '4',
-      text: 'Sollte Elternzeit gleichermaßen für Männer und Frauen gelten?',
-      headline: 'Gleichberechtigung',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q5 = Question(
-      questionID: '5',
-      text: 'Sollte der Gender Pay Gap gesetzlich abgeschafft werden?',
-      headline: 'Gleichberechtigung',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    QuestionNotifier().questions = [q1, q2, q3, q4, q5];
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4, p5];
   }
 
   void setCoronaQuestions() {
-    Question q1 = Question(
-      questionID: '1',
-      text: 'Sollten Impfungen verpflichtend sein?',
-      headline: 'Corona',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
+    Question question = _generateQuestion('q0', 'Sollten Impfungen verpflichtend sein?', 'Corona');
+    Question p1 = _generateQuestion('p1', 'Sollten Lockdowns wieder eingeführt werden?', 'Corona');
+    Question p2 = _generateQuestion('p2', 'Sollte Homeoffice zur Pflicht werden?', 'Corona');
+    Question p3 =
+        _generateQuestion('p3', 'Sollte es eine Maskenpflicht in öffentlichen Verkehrsmitteln geben?', 'Corona');
+    Question p4 = _generateQuestion('p4', 'Sollten Großveranstaltungen verboten werden?', 'Corona');
 
-    Question q2 = Question(
-      questionID: '2',
-      text: 'Sollten Lockdowns wieder eingeführt werden?',
-      headline: 'Corona',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q3 = Question(
-      questionID: '3',
-      text: 'Sollte Homeoffice zur Pflicht werden?',
-      headline: 'Corona',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q4 = Question(
-      questionID: '4',
-      text: 'Sollte es eine Maskenpflicht in öffentlichen Verkehrsmitteln geben?',
-      headline: 'Corona',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q5 = Question(
-      questionID: '5',
-      text: 'Sollten Großveranstaltungen verboten werden?',
-      headline: 'Corona',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    QuestionNotifier().questions = [q1, q2, q3, q4, q5];
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4];
   }
 
   void setRassismusQuestions() {
-    Question q1 = Question(
-      questionID: '1',
-      text: 'Sollte Racial Profiling verboten werden?',
-      headline: 'Rassismus',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
+    Question question = _generateQuestion('q0', 'Sollte Racial Profiling verboten werden?', 'Rassismus');
+    Question p1 = _generateQuestion('p1', 'Sollten mehr Mittel gegen Rassismus bereitgestellt werden?', 'Rassismus');
+    Question p2 = _generateQuestion('p2', 'Sollten antirassistische Schulungen verpflichtend sein?', 'Rassismus');
+    Question p3 = _generateQuestion('p3', 'Sollten rassistische Straftaten härter bestraft werden?', 'Rassismus');
+    Question p4 = _generateQuestion(
+        'p4', 'Sollte rassistische Diskriminierung am Arbeitsplatz strenger reguliert werden?', 'Rassismus');
 
-    Question q2 = Question(
-      questionID: '2',
-      text: 'Sollten mehr Mittel gegen Rassismus bereitgestellt werden?',
-      headline: 'Rassismus',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q3 = Question(
-      questionID: '3',
-      text: 'Sollten antirassistische Schulungen verpflichtend sein?',
-      headline: 'Rassismus',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q4 = Question(
-      questionID: '4',
-      text: 'Sollten rassistische Straftaten härter bestraft werden?',
-      headline: 'Rassismus',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q5 = Question(
-      questionID: '5',
-      text: 'Sollte rassistische Diskriminierung am Arbeitsplatz strenger reguliert werden?',
-      headline: 'Rassismus',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    QuestionNotifier().questions = [q1, q2, q3, q4, q5];
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4];
   }
 
   void setWirtschaftQuestions() {
-    Question q1 = Question(
-      questionID: '1',
-      text: 'Sollte der Mindestlohn erhöht werden?',
-      headline: 'Wirtschaft',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
+    Question q = _generateQuestion('q0', 'Sollte der Mindestlohn erhöht werden?', 'Wirtschaft');
+    Question p1 = _generateQuestion('p1', 'Sollte es mehr Investitionen in Infrastruktur geben?', 'Wirtschaft');
+    Question p2 = _generateQuestion('p2', 'Sollten Unternehmenssteuern gesenkt werden?', 'Wirtschaft');
+    Question p3 = _generateQuestion('p3', 'Sollte es stärkere Regulierungen für Großunternehmen geben?', 'Wirtschaft');
+    Question p4 = _generateQuestion('p4', 'Sollten Startups stärker gefördert werden?', 'Wirtschaft');
 
-    Question q2 = Question(
-      questionID: '2',
-      text: 'Sollte es mehr Investitionen in Infrastruktur geben?',
-      headline: 'Wirtschaft',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q3 = Question(
-      questionID: '3',
-      text: 'Sollten Unternehmenssteuern gesenkt werden?',
-      headline: 'Wirtschaft',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q4 = Question(
-      questionID: '4',
-      text: 'Sollte es stärkere Regulierungen für Großunternehmen geben?',
-      headline: 'Wirtschaft',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    Question q5 = Question(
-      questionID: '5',
-      text: 'Sollten Startups stärker gefördert werden?',
-      headline: 'Wirtschaft',
-      isStatement: false,
-      creatorID: '',
-      wasEdited: false,
-      userID: '',
-    );
-
-    QuestionNotifier().questions = [q1, q2, q3, q4, q5];
+    QuestionNotifier().currentQuestion = q;
+    QuestionNotifier().premises = [p1, p2, p3, p4];
   }
 }

@@ -23,6 +23,14 @@ class UserAnswerSender {
         if (data.containsKey('0')) {
           userID = 1;
         }
+        if (data.containsKey('1') && data.containsKey('0')) {
+          showToast(
+            'Es sind bereits zwei Personen in diesem Chat. Bitte setzen Sie eine andere Chat Identifikation ein.',
+            position: ToastPosition.bottom,
+            backgroundColor: Colors.red,
+          );
+          return -1;
+        }
       }
     }
 
@@ -61,5 +69,25 @@ class UserAnswerSender {
       }
     }
     return [];
+  }
+
+  Stream<List<QuestionAnswerPair>> getUserAnswersStream(String chatIdentifier, String otherUserID) {
+    final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
+
+    return collectionRef.snapshots().map((docSnapshot) {
+      if (docSnapshot.exists) {
+        var data = docSnapshot.data();
+        if (data != null && data.containsKey(otherUserID)) {
+          List<Map<String, dynamic>> firestoreData = List<Map<String, dynamic>>.from(data[otherUserID]);
+          return firestoreData
+              .map((item) => QuestionAnswerPair(
+                    question: item['questionID'].toString(),
+                    answer: int.tryParse(item['answerValue'].toString()) ?? 0,
+                  ))
+              .toList();
+        }
+      }
+      return [];
+    });
   }
 }

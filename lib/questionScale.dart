@@ -70,9 +70,27 @@ class _QuestionScaleState extends State<QuestionScale> {
     widget.question.answerValue = answerNumber;
 
     // find question In QuestionNotifier and replace that one with the modifued one containing the new answer
-    QuestionNotifier().questions[QuestionNotifier()
-        .questions
-        .indexWhere((element) => element.questionID == widget.question.questionID)] = widget.question;
+
+    int? indexOrNull = QuestionNotifier().premises.indexWhere((element) => element.questionID == widget.question.questionID);
+    print("indexOrNull: $indexOrNull");
+    if (indexOrNull != -1) {
+      QuestionNotifier().premises[indexOrNull] = widget.question;
+    } else {
+      QuestionNotifier().currentQuestion = widget.question;
+
+    }
+
+    //
+    // QuestionNotifier().premises[QuestionNotifier()
+    //     .premises
+    //     .indexWhere((element) => element.questionID == widget.question.questionID)] = widget.question;
+    //
+    //
+    // print("Widget question ID: ${widget.question.questionID}");
+    // print("Current question ID: ${QuestionNotifier().currentQuestion.questionID}");
+    // if (widget.question.questionID == QuestionNotifier().currentQuestion.questionID) {
+    //   print("Setting current question");
+    // }
   }
 
   @override
@@ -181,10 +199,10 @@ class _QuestionScaleState extends State<QuestionScale> {
                 style: OutlinedButton.styleFrom(
                   shape: const CircleBorder(),
                   side: BorderSide(
-                    width: 1.0,
-                    color: y ? Theme.of(context).focusColor : Theme.of(context).colorScheme.secondary,
+                    width: 1.5,
+                    color: y ? Colors.red : Theme.of(context).colorScheme.secondary,
                   ),
-                  backgroundColor: x ? Theme.of(context).focusColor : Theme.of(context).colorScheme.primaryContainer,
+                  backgroundColor: x ? const Color(0xFF1C4CDB) : Theme.of(context).colorScheme.primaryContainer,
                 ),
                 child: const Text(''),
               ),

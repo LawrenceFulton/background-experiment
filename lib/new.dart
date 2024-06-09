@@ -41,10 +41,8 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
           isVisible: true)
     ];
 
-    return buildNewQuestions(context, questionNotifier.questions, creators);
+    return buildNewQuestions(context, questionNotifier.premises, creators);
   }
-
-  String answerValues(List<Question> questions) => questions.map((e) => e.answerValue).toList().toString();
 
   void onPressed() async {
     if (chatIdentifier.isEmpty) {
@@ -57,36 +55,69 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
     }
 
     Map<String, int> userAnswers = {};
-    for (var question in questionNotifier.questions) {
+    for (var question in questionNotifier.premises) {
       userAnswers[question.questionID] = question.answerValue;
     }
-    final ownUserID = await UserAnswerSender().addUserAnswer(userAnswers, chatIdentifier);
-    final otherUserID = ownUserID == 0 ? 1 : 0;
+    userAnswers[questionNotifier.currentQuestion.questionID] = questionNotifier.currentQuestion.answerValue;
 
-    UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString()).then((value) {
-      if (value.isNotEmpty) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OtherPerson(
-              chatIdentifier: chatIdentifier,
-              otherPersonsAnswers: value,
-            ),
-          ),
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return FutureBuilder<int>(
+          future: UserAnswerSender().addUserAnswer(userAnswers, chatIdentifier),
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const AlertDialog(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              );
+            } else {
+              Navigator.pop(context, snapshot.data);
+              return Container(); // Return an empty container
+            }
+          },
         );
-      } else {
-        Navigator.push(
+      },
+    ).then((ownUserID) {
+      if (ownUserID == -1) {
+        return;
+      }
+
+      final otherUserID = ownUserID == 0 ? 1 : 0;
+
+      UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString()).then((value) {
+        if (value.isNotEmpty) {
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    WaitingPage(chatIdentifier: chatIdentifier, otherPersonsUserID: otherUserID.toString())));
-      }
+              builder: (context) => ComparePremises(
+                chatIdentifier: chatIdentifier,
+                ownAnswers: questionNotifier.questionAnswerPairs,
+                otherPersonsAnswers: value,
+              ),
+            ),
+          );
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WaitingPage(
+                      chatIdentifier: chatIdentifier,
+                      ownAnswers: questionNotifier.questionAnswerPairs,
+                      otherPersonsUserID: otherUserID.toString())));
+        }
+      });
     });
   }
 
   Widget buildNewQuestions(BuildContext context, List<Question> questionItems, List<Creator> creators) {
     return Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ListView(
@@ -97,8 +128,11 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
               ),
               //Text input field to add a chat identifier
               TextField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  fillColor: Colors.white,
                   labelText: 'Chat Identifikation',
                 ),
                 onChanged: (text) {
@@ -108,38 +142,20 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
               const SizedBox(
                 height: 15,
               ),
-
+              questionContainer(context, questionNotifier.currentQuestion, creators[0]),
+              const SizedBox(
+                height: 15,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 15,
+              ),
               ListView.separated(
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
                 itemCount: questionItems.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    //big container that holds everything, a block
-                    width: context.deviceWidth * 0.1,
-
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: SingleQuestion(
-                              question: questionItems[index],
-                              creator: creators[0],
-                              changeable: true,
-                              answer: 0,
-                              statement: questionItems[index].isStatement,
-                              secondAnswer: 0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return questionContainer(context, questionItems[index], creators[0]);
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(
@@ -153,14 +169,50 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: onPressed,
-                  child: const Text('Abschicken'),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: onPressed,
+                    label: const Text('Abschicken'),
+                  ),
                 ),
               ),
-              Text(answerValues(questionItems)),
+              const SizedBox(
+                height: 15,
+              ),
             ],
           ),
         ));
+  }
+
+  Widget questionContainer(BuildContext context, Question question, Creator creator) {
+    return Container(
+      //big container that holds everything, a block
+      width: context.deviceWidth * 0.1,
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey, width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: SingleQuestion(
+                question: question,
+                creator: creator,
+                changeable: true,
+                answer: 0,
+                statement: question.isStatement,
+                secondAnswer: 0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:background_experiment/contextExtension.dart';
 import 'package:background_experiment/question.dart';
 import 'package:background_experiment/questionScale.dart';
@@ -20,7 +18,7 @@ class SingleQuestion extends StatefulWidget {
   final bool disableBottomSheet;
   final bool disableSkipButton;
 
-  const SingleQuestion({
+  const SingleQuestion({super.key,
     required this.question,
     this.changeable = true,
     this.disableBottomSheet = false,
@@ -39,29 +37,25 @@ class SingleQuestion extends StatefulWidget {
 class _SingleQuestionState extends State<SingleQuestion> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: (Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-        QuestionTitle(questionTitle: widget.question.headline),
-        QuestionText(
-          title: widget.question.text,
-        ),
-        SizedBox(
-          //Use of SizedBox
-          height: context.deviceHeight * 0.03,
-        ),
-        QuestionScale(
-          question: widget.question,
-          answer: widget.answer,
-          secondAnswer: widget.secondAnswer,
-          changeable: widget.changeable,
-        ),
-        SizedBox(
-          //Use of SizedBox
-          height: context.deviceHeight * 0.01,
-        ),
-      ])),
-    );
+    return (Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      QuestionTitle(questionTitle: widget.question.headline),
+      QuestionText(
+        title: widget.question.text,
+      ),
+      SizedBox(
+        //Use of SizedBox
+        height: context.deviceHeight * 0.03,
+      ),
+      QuestionScale(
+        question: widget.question,
+        answer: widget.answer,
+        secondAnswer: widget.secondAnswer,
+        changeable: widget.changeable,
+      ),
+      SizedBox(
+        //Use of SizedBox
+        height: context.deviceHeight * 0.01,
+      ),
+    ]));
   }
 }
