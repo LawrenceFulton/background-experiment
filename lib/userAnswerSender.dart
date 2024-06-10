@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
 class UserAnswerSender {
-  Future<int> addUserAnswer(Map<String, int> userAnswers, String chatIdentifier) async {
+  Future<int> addUserAnswer(Map<String, int> userAnswers, String chatIdentifier, String questionTitle) async {
     final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
     //make a list of all the user answers and then add them to the collection with the user ID as the document ID
     List<Map<String, dynamic>> userAnswersList = [];
@@ -36,6 +36,7 @@ class UserAnswerSender {
 
     try {
       await collectionRef.set({
+        'questionTitle': questionTitle,
         userID.toString(): userAnswersList,
       }, SetOptions(merge: true));
       return userID;

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:background_experiment/contextExtension.dart';
 import 'package:background_experiment/question.dart';
 import 'package:background_experiment/questionNotifier.dart';
@@ -71,13 +69,13 @@ class _QuestionScaleState extends State<QuestionScale> {
 
     // find question In QuestionNotifier and replace that one with the modifued one containing the new answer
 
-    int? indexOrNull = QuestionNotifier().premises.indexWhere((element) => element.questionID == widget.question.questionID);
+    int? indexOrNull =
+        QuestionNotifier().premises.indexWhere((element) => element.questionID == widget.question.questionID);
     print("indexOrNull: $indexOrNull");
     if (indexOrNull != -1) {
       QuestionNotifier().premises[indexOrNull] = widget.question;
     } else {
       QuestionNotifier().currentQuestion = widget.question;
-
     }
 
     //
@@ -96,8 +94,6 @@ class _QuestionScaleState extends State<QuestionScale> {
   @override
   void initState() {
     super.initState();
-    log("ANSWER: ${widget.answer}");
-    log("SECOND ANSWER: ${widget.secondAnswer}");
     userID = "user!.uid";
     drawFirstAnswer(widget.answer);
     drawSecondaryAnswer(widget.secondAnswer);
@@ -107,7 +103,7 @@ class _QuestionScaleState extends State<QuestionScale> {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10, color: Colors.black);
+    final textStyle = Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 18, color: Colors.black);
 
     return (Column(
       children: <Widget>[
@@ -124,22 +120,43 @@ class _QuestionScaleState extends State<QuestionScale> {
         SizedBox(
           height: context.deviceHeight * 0.014,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            buildColumn(context, widget.question.isStatement, 'Nein', 'Stimme nicht zu', textStyle: textStyle),
-            buildColumn(context, widget.question.isStatement, 'Eher Nein', '', textStyle: textStyle),
-            buildColumn(context, widget.question.isStatement, 'Neutral', 'Neutral', textStyle: textStyle),
-            buildColumn(context, widget.question.isStatement, 'Eher Ja', '', textStyle: textStyle),
-            buildColumn(context, widget.question.isStatement, 'Ja', 'Stimme zu', textStyle: textStyle),
-          ],
-        ),
+        buildColumnRow(context, textStyle),
         const SizedBox(
           //Use of SizedBox
           height: 10,
         ),
       ],
     ));
+  }
+
+  Widget buildColumnRow(BuildContext context, TextStyle? textStyle) {
+    return widget.question.alternativeScale == null
+        ? Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildColumn(context, widget.question.isStatement, 'Nein', 'Stimme nicht zu', 1,
+                    textStyle: textStyle, isAlternativeScale: true),
+                // buildColumn(context, widget.question.isStatement, '', ''),
+                // Spacer(),
+                // buildColumn(context, widget.question.isStatement, 'Neutral', 'Neutral', 3, textStyle: textStyle),
+                // buildColumn(context, widget.question.isStatement, '', ''),
+                // Spacer(),
+                buildColumn(context, widget.question.isStatement, 'Ja', 'Stimme zu', 5,
+                    textStyle: textStyle, isAlternativeScale: true),
+              ],
+            ),
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildColumn(context, widget.question.isStatement, widget.question.alternativeScale![0], '', 1,
+                  isAlternativeScale: true),
+              buildColumn(context, widget.question.isStatement, widget.question.alternativeScale![1], '', 5,
+                  isAlternativeScale: true),
+            ],
+          );
   }
 
   // Helper function to create the buttons
@@ -202,7 +219,7 @@ class _QuestionScaleState extends State<QuestionScale> {
                     width: 1.5,
                     color: y ? Colors.red : Theme.of(context).colorScheme.secondary,
                   ),
-                  backgroundColor: x ? const Color(0xFF1C4CDB) : Theme.of(context).colorScheme.primaryContainer,
+                  backgroundColor: x ? const Color(0xFF1C4CDB) : Colors.white,
                 ),
                 child: const Text(''),
               ),
@@ -213,9 +230,23 @@ class _QuestionScaleState extends State<QuestionScale> {
     );
   }
 
-  Widget buildColumn(BuildContext context, bool statement, String textFalse, String textTrue, {TextStyle? textStyle}) {
+  Widget buildColumn(BuildContext context, bool statement, String textFalse, String textTrue, int position,
+      {TextStyle? textStyle, bool? isAlternativeScale}) {
     final isVisible = !statement;
     const alignment = TextAlign.center;
+
+    if (isAlternativeScale == true) {
+      return Text(textFalse, style: textStyle);
+    }
+
+    if (position == 0) {
+      return Text(textFalse, style: textStyle, textAlign: TextAlign.start);
+    }
+    if (position == 4) {
+      return Text(textFalse, style: textStyle, textAlign: TextAlign.end);
+    }
+
+    return Expanded(child: Text(textFalse, style: textStyle, textAlign: alignment));
 
     return SizedBox(
       width: columnWidth(context),

@@ -7,6 +7,7 @@ class Question {
   final bool wasEdited;
   final String userID;
   int _answerValue;
+  final List<String>? alternativeScale;
 
   int get answerValue => _answerValue;
 
@@ -18,6 +19,7 @@ class Question {
     required this.creatorID,
     required this.wasEdited,
     required this.userID,
+    this.alternativeScale,
   }) : _answerValue = 0;
 
   set answerValue(int value) {

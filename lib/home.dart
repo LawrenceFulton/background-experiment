@@ -12,26 +12,32 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final List<String> topics = [
     "Erbschaftssteuer",
-    "Klimawandel",
-    "Gleichberechtigung",
-    "Corona",
-    "Rassismus",
-    "Wirtschaft",
+    "Debattenkultur",
+    "Ananas",
+    "Frauenquote",
+    "Waffenlieferungen",
+    "Tempolimit",
+    "Grundeinkommen",
+    'Corona-Maßnahmen'
   ];
 
   void setQuestions(String topic) {
     if (topic == "Erbschaftssteuer") {
       QuestionCreator().setErbschaftssteuerQuestions();
-    } else if (topic == "Klimawandel") {
-      QuestionCreator().setKlimawandelQuestions();
-    } else if (topic == "Gleichberechtigung") {
-      QuestionCreator().setGleichberechtigungQuestions();
-    } else if (topic == "Corona") {
-      QuestionCreator().setCoronaQuestions();
-    } else if (topic == "Rassismus") {
-      QuestionCreator().setRassismusQuestions();
-    } else if (topic == "Wirtschaft") {
-      QuestionCreator().setWirtschaftQuestions();
+    } else if (topic == "Debattenkultur") {
+      QuestionCreator().setDebattenkulturQuestions();
+    } else if (topic == "Ananas") {
+      QuestionCreator().setAnanasQuestions();
+    } else if (topic == "Frauenquote") {
+      QuestionCreator().setFrauenquoteQuestions();
+    } else if (topic == "Waffenlieferungen") {
+      QuestionCreator().setWaffenlieferungenQuestions();
+    } else if (topic == "Tempolimit") {
+      QuestionCreator().setTempolimitQuestions();
+    } else if (topic == "Grundeinkommen") {
+      QuestionCreator().setGrundeinkommenQuestions();
+    } else if (topic == 'Corona-Maßnahmen') {
+      QuestionCreator().setCoronaMassnahmenQuestions();
     }
   }
 
@@ -39,19 +45,23 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text('Background'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            const Text('So kommst du in fünf Schritten ins Gespräch:\n'
+                '1. Gesprächspartner:in finden.\n'
+                '2. Eine Frage auswählen, auf die ihr unterschiedlich antworten würdet.\n'
+                '3. Namen für euren Chat besprechen und eingeben.\n'
+                '4. Frage und Prämissen beantworten und abschicken.\n'
+                '5. Antworten vergleichen und darauf basierend über die Frage diskutieren.\n'
+                'Über euer Feedback würden wir uns sehr freuen!'),
             const SizedBox(
               height: 20,
             ),
-            const Text('Welches Thema haben Sie Sich zum Diskutieren ausgesucht?'),
-            const SizedBox(
-              height: 20,
-            ),
+            const Text('Wähle ein Thema aus:', style: TextStyle(fontSize: 20)),
             Expanded(
               child: ListView.builder(
                 itemCount: topics.length,

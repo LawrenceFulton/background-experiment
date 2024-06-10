@@ -7,8 +7,8 @@ import 'package:background_experiment/waitingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
+import 'compareQuestion.dart';
 import 'creator.dart';
-import 'otherPerson.dart';
 
 class NewQuestions extends StatefulWidget {
   const NewQuestions({super.key});
@@ -65,7 +65,8 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
       barrierDismissible: false,
       builder: (BuildContext context) {
         return FutureBuilder<int>(
-          future: UserAnswerSender().addUserAnswer(userAnswers, chatIdentifier),
+          future:
+              UserAnswerSender().addUserAnswer(userAnswers, chatIdentifier, questionNotifier.currentQuestion.headline),
           builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const AlertDialog(

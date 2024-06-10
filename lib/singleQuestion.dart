@@ -18,7 +18,8 @@ class SingleQuestion extends StatefulWidget {
   final bool disableBottomSheet;
   final bool disableSkipButton;
 
-  const SingleQuestion({super.key,
+  const SingleQuestion({
+    super.key,
     required this.question,
     this.changeable = true,
     this.disableBottomSheet = false,
@@ -38,7 +39,7 @@ class _SingleQuestionState extends State<SingleQuestion> {
   @override
   Widget build(BuildContext context) {
     return (Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-      QuestionTitle(questionTitle: widget.question.headline),
+      if (widget.question.headline != "") QuestionTitle(questionTitle: widget.question.headline),
       QuestionText(
         title: widget.question.text,
       ),
@@ -51,10 +52,6 @@ class _SingleQuestionState extends State<SingleQuestion> {
         answer: widget.answer,
         secondAnswer: widget.secondAnswer,
         changeable: widget.changeable,
-      ),
-      SizedBox(
-        //Use of SizedBox
-        height: context.deviceHeight * 0.01,
       ),
     ]));
   }

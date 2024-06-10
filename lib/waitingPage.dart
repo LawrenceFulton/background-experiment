@@ -3,7 +3,7 @@ import 'package:background_experiment/questionAnswerPair.dart';
 import 'package:background_experiment/userAnswerSender.dart';
 import 'package:flutter/material.dart';
 
-import 'otherPerson.dart';
+import 'compareQuestion.dart';
 
 class WaitingPage extends StatefulWidget {
   final String chatIdentifier;
