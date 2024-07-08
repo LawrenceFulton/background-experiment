@@ -13,12 +13,14 @@ class _HomeState extends State<Home> {
   final List<String> topics = [
     "Erbschaftssteuer",
     "Debattenkultur",
-    "Ananas",
     "Frauenquote",
     "Waffenlieferungen",
     "Tempolimit",
     "Grundeinkommen",
-    'Corona-Maßnahmen'
+    'Corona-Maßnahmen',
+    "Zigaretten",
+    "Smartphone",
+    "AfD-Verbot",
   ];
 
   void setQuestions(String topic) {
@@ -38,6 +40,12 @@ class _HomeState extends State<Home> {
       QuestionCreator().setGrundeinkommenQuestions();
     } else if (topic == 'Corona-Maßnahmen') {
       QuestionCreator().setCoronaMassnahmenQuestions();
+    } else if (topic == "Zigaretten") {
+      QuestionCreator().setZigarettenkaufAlterQuestions();
+    } else if (topic == "Smartphone") {
+      QuestionCreator().setSmartphoneVerbotQuestions();
+    } else if (topic == "AfD-Verbot") {
+      QuestionCreator().setAfDVerbotQuestions();
     }
   }
 

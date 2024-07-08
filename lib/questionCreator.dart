@@ -2,7 +2,7 @@ import 'package:background_experiment/question.dart';
 import 'package:background_experiment/questionNotifier.dart';
 
 class QuestionCreator {
-  Question _generateQuestion(String questionID, String text, String headline, {List<String>? alternativeScale = null}) {
+  Question _generateQuestion(String questionID, String text, String headline, {List<String>? alternativeScale}) {
     return Question(
       questionID: questionID,
       text: text,
@@ -33,7 +33,8 @@ class QuestionCreator {
     Question p5 = _generateQuestion(
         "p5",
         "Soziale Gerechtigkeit und individuelle Freiheit können sich gegenseitig einschränken. Wenn Sie die Wahl hätten, würden Sie sich im Zweifelsfall eher für soziale Gerechtigkeit oder individuelle Freiheit entscheiden?",
-        '');
+        '',
+        alternativeScale: ['Soziale Gerechtigkeit', 'Individuelle Freiheit']);
 
     QuestionNotifier().currentQuestion = question;
     QuestionNotifier().premises = [p1, p2, p3, p4, p5];
@@ -45,7 +46,8 @@ class QuestionCreator {
     Question p1 = _generateQuestion(
         'p1',
         'Hast du das Gefühl, dass man heute in Deutschland seine politische Meinung frei sagen kann, oder ist es besser, vorsichtig zu sein?',
-        '');
+        '',
+        alternativeScale: ['Frei', 'Vorsichtig']);
     Question p2 = _generateQuestion(
         'p2',
         'Bist du mit der Art und Weise, wie die Demokratie in Deutschland funktioniert, alles in allem gesehen zufrieden?',
@@ -53,7 +55,8 @@ class QuestionCreator {
     Question p3 = _generateQuestion(
         'p3',
         'Soziale Gerechtigkeit und individuelle Freiheit können sich gegenseitig einschränken. Wenn Sie die Wahl hätten, würden Sie sich im Zweifelsfall eher für soziale Gerechtigkeit oder individuelle Freiheit entscheiden?',
-        '');
+        '',
+        alternativeScale: ['Soziale Gerechtigkeit', 'Individuelle Freiheit']);
     Question p4 = _generateQuestion('p4', 'Ist die “Cancel Culture” ein Problem?', '');
     Question p5 = _generateQuestion('p5', 'Findest du, dass Social Media die Debattenkultur verschlechtert haben?', '');
 
@@ -139,7 +142,8 @@ class QuestionCreator {
     Question p5 = _generateQuestion(
         'p5',
         'Soziale Gerechtigkeit und individuelle Freiheit können sich gegenseitig einschränken. Wenn Sie die Wahl hätten, würden Sie sich im Zweifelsfall eher für soziale Gerechtigkeit oder individuelle Freiheit entscheiden?',
-        '');
+        '',
+        alternativeScale: ['Soziale Gerechtigkeit', 'Individuelle Freiheit']);
 
     QuestionNotifier().currentQuestion = question;
     QuestionNotifier().premises = [p1, p2, p3, p4, p5];
@@ -161,7 +165,8 @@ class QuestionCreator {
     Question p5 = _generateQuestion(
         'p5',
         'Soziale Gerechtigkeit und individuelle Freiheit können sich gegenseitig einschränken. Wenn Sie die Wahl hätten, würden Sie sich im Zweifelsfall eher für soziale Gerechtigkeit oder individuelle Freiheit entscheiden?',
-        '');
+        '',
+        alternativeScale: ['Soziale Gerechtigkeit', 'Individuelle Freiheit']);
 
     QuestionNotifier().currentQuestion = question;
     QuestionNotifier().premises = [p1, p2, p3, p4, p5];
@@ -178,7 +183,8 @@ class QuestionCreator {
     Question p2 = _generateQuestion(
         'p2',
         'Soziale Gerechtigkeit und individuelle Freiheit können sich gegenseitig einschränken. Wenn Sie die Wahl hätten, würden Sie sich im Zweifelsfall eher für soziale Gerechtigkeit oder individuelle Freiheit entscheiden?',
-        '');
+        '',
+        alternativeScale: ['Soziale Gerechtigkeit', 'Individuelle Freiheit']);
     Question p3 = _generateQuestion('p3', 'Vertraust Du grundsätzlich der deutschen Regierung?', '');
     Question p4 = _generateQuestion(
         'p4',
@@ -186,6 +192,68 @@ class QuestionCreator {
         '');
     Question p5 = _generateQuestion('p5',
         'Rechtfertigt das Retten eines Leben die Verschlechterung der Lebensumstände von vielen anderen Menschen?', '');
+
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4, p5];
+  }
+
+  void setZigarettenkaufAlterQuestions() {
+    Question question = _generateQuestion(
+        'q0',
+        'In einem Gesetzentwurf in Großbritannien soll das Mindestalter für den Kauf von Zigaretten jedes Jahr angehoben werden. Wer jetzt unter 16 ist, wird somit nie legal Zigaretten kaufen dürfen. Hältst du das Gesetz für sinnvoll?',
+        'Zigarettenkauf-Alter');
+    Question p1 = _generateQuestion(
+        'p1', 'Glaubst du, dass die Regelung funktionieren und den Zigarettenkonsum stark einschränken würde?', '');
+    Question p2 = _generateQuestion(
+        'p2',
+        'Wer sollte für das Wohlergehen von Menschen in einem Land verantwortlich sein, der Staat oder das Individuum?',
+        '',
+        alternativeScale: ['Staat', 'Individuum']);
+    Question p3 = _generateQuestion(
+        'p3',
+        'Ist es prinzipiell erlaubt, individuelle Freiheit einzuschränken, um Menschen zu besseren Verhaltensweisen zu bringen?',
+        '');
+    Question p4 = _generateQuestion(
+        'p4',
+        'Ist es immer moralisch sich an die geltenden Gesetze zu halten, oder glauben sie, dass es in manchen Fällen moralisch geboten ist gegen Gesetze zu verstoßen?',
+        '',
+        alternativeScale: ['Immer', 'In manchen Fällen']);
+    Question p5 = _generateQuestion(
+        'p5',
+        'Ist es richtig, gewisse Regeln auf einmal zu verändern und so verschiedene Lebensrealitäten für verschiedene Generationen zu schaffen?',
+        '');
+
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4, p5];
+  }
+
+  void setSmartphoneVerbotQuestions() {
+    Question question = _generateQuestion('q0', 'Sollten Smartphones an Schulen verboten werden?', 'Smartphone-Verbot');
+    Question p1 = _generateQuestion(
+        'p1', 'Glaubst du, dass die Regelung funktionieren und die Smartphonenutzung stark einschränken würde?', '');
+    Question p2 = _generateQuestion('p2', 'Macht die Digitalisierung die Gesellschaft insgesamt besser?', '');
+    Question p3 = _generateQuestion('p3', 'Macht Social Media die Gesellschaft insgesamt besser?', '');
+    Question p4 = _generateQuestion('p4', 'Ist es generell richtig, Kinder in manchen Fällen zu bevormunden?', '');
+    Question p5 = _generateQuestion('p5', 'Menschen besitzen einen freien Willen.', '');
+
+    QuestionNotifier().currentQuestion = question;
+    QuestionNotifier().premises = [p1, p2, p3, p4, p5];
+  }
+
+  void setAfDVerbotQuestions() {
+    Question question = _generateQuestion('q0', 'Sollte die AfD verboten werden?', 'AfD-Verbot');
+    Question p1 = _generateQuestion('p1', 'Sind rechte Parteien eine Gefahr für unsere Demokratie?', '');
+    Question p2 = _generateQuestion(
+        'p2',
+        'Hältst du eine Regierungsbeteiligung (Bund oder Länder) der AfD in den nächsten 10 Jahren für wahrscheinlich?',
+        '');
+    Question p3 = _generateQuestion('p3', 'Kannst du die Motivation, die AfD zu wählen, nachvollziehen?', '');
+    Question p4 = _generateQuestion(
+        'p4',
+        'Soziale Gerechtigkeit und individuelle Freiheit können sich gegenseitig einschränken. Wenn Sie die Wahl hätten, würden Sie sich im Zweifelsfall eher für soziale Gerechtigkeit oder individuelle Freiheit entscheiden?',
+        '',
+        alternativeScale: ['Soziale Gerechtigkeit', 'Individuelle Freiheit']);
+    Question p5 = _generateQuestion('p5', 'Vertrauen Sie grundsätzlich der deutschen Regierung?', '');
 
     QuestionNotifier().currentQuestion = question;
     QuestionNotifier().premises = [p1, p2, p3, p4, p5];

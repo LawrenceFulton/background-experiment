@@ -120,33 +120,6 @@ class _ComparePremisesState extends State<ComparePremises> with TickerProviderSt
               const SizedBox(
                 height: 20,
               ),
-              const Divider(
-                thickness: 4,
-              ),
-              const Text(
-                "Nach Abschluss des Testes bitten wir Sie um Feedback.",
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.arrow_back_ios),
-                    onPressed: () {
-                      const url =
-                          "https://docs.google.com/forms/d/e/1FAIpQLScbekEOVwGd5LeJgt47Aj0hkUt6723HOaTdowe0yrjbnXZ69g/viewform";
-                      openInWindow(url, "Feedback");
-                    },
-                    label: const Text('Abschicken'),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
             ],
           ),
         ));
