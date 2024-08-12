@@ -26,10 +26,14 @@ class _ComparePremisesState extends State<ComparePremises> with TickerProviderSt
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
-    chatIdentifier = args['chatIdentifier'];
-    ownAnswers = args['ownAnswers'];
-    otherPersonsAnswers = args['otherPersonsAnswers'];
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args == null) {
+      return;
+    }
+    final argsMap = args as Map;
+    chatIdentifier = argsMap['chatIdentifier'];
+    ownAnswers = argsMap['ownAnswers'];
+    otherPersonsAnswers = argsMap['otherPersonsAnswers'];
   }
 
   @override

@@ -8,6 +8,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'new.dart';
 
 Future<void> main() async {
   await Firebase.initializeApp(
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         home: const Home(),
         routes: {
           '/home': (context) => const Home(),
+          '/new': (context) => const NewQuestions(),
           '/waiting': (context) => const WaitingPage(),
           '/compare': (context) => const ComparePremises(),
         },

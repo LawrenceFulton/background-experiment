@@ -1,4 +1,3 @@
-import 'package:background_experiment/new.dart';
 import 'package:background_experiment/questionCreator.dart';
 import 'package:background_experiment/topics.dart';
 import 'package:flutter/material.dart';
@@ -81,11 +80,9 @@ class _HomeState extends State<Home> {
                     child: ElevatedButton(
                       onPressed: () {
                         setQuestions(topics[index]);
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const NewQuestions(),
-                          ),
+                          '/new',
                         );
                       },
                       child: Text(topics[index].value),
