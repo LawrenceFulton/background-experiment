@@ -37,7 +37,8 @@ class QuestionCreator {
     Question p4 = _generateQuestion(
         'p4',
         'Ganz grundsätzlich, ist es für eine Gesellschaft positiv oder negativ, dass Menschen Wohlstand besitzen können, den sie sich selbst nicht erarbeitet haben?',
-        '');
+        '',
+        alternativeScale: ['Negativ', 'Positiv']);
     Question p5 = _generateQuestion(
         'p5', 'Soll die Verteilung von Einkommen und Vermögen prinzipiell durch Besteuerung beeinflusst werden?', '');
     Question p6 = _generateQuestion(
@@ -237,7 +238,8 @@ class QuestionCreator {
     Question p7 = _generateQuestion(
         'p7',
         'Wer sollte für das Wohlergehen von Menschen in einem Land verantwortlich sein, der Staat oder das Individuum?',
-        '');
+        '',
+        alternativeScale: ['Staat', 'Individuum']);
 
     QuestionNotifier().currentQuestion = question;
     QuestionNotifier().premises = [p1, p2, p3, p4, p5, p6, p7];
@@ -303,7 +305,7 @@ class QuestionCreator {
         'p4',
         'Wer sollte für das Wohlergehen von Menschen in einem Land verantwortlich sein, der Staat oder das Individuum?',
         '',
-        alternativeScale: ['Staat, Individuum']);
+        alternativeScale: ['Staat', 'Individuum']);
     Question p5 = _generateQuestion(
         'p5',
         'Ist es prinzipiell erlaubt, individuelle Freiheit einzuschränken, um Menschen zu besseren Verhaltensweisen zu bringen?',

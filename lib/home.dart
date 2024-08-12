@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
           children: [
             const Text('So kommst du in fünf Schritten ins Gespräch:\n'
                 '1. Gesprächspartner:in finden.\n'
-                '2. Die Frage auswählen die euch zugewiesen wurden ist..\n'
+                '2. Die Frage, die euch zugewiesen wurden ist auswählen.\n'
                 '3. Einzigartigen Namen für euren Chat besprechen und eingeben.\n'
                 '4. Frage und Prämissen beantworten und abschicken.\n'
                 '5. Antworten vergleichen und darauf basierend über die Frage diskutieren.\n'
