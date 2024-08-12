@@ -30,7 +30,8 @@ enum ScalePositions {
 }
 
 class _QuestionScaleState extends State<QuestionScale> {
-  String userID = '';
+  static const Color focusColor = Color(0xFF1C4CDB);
+  static const Color lightPrimaryContainer = Color(0xFFFFFFFF);
 
   bool y1 = false, y2 = false, y3 = false, y4 = false, y5 = false;
   bool x1 = false, x2 = false, x3 = false, x4 = false, x5 = false;
@@ -67,7 +68,7 @@ class _QuestionScaleState extends State<QuestionScale> {
   void handleAnswer(int answerNumber) {
     widget.question.answerValue = answerNumber;
 
-    // find question In QuestionNotifier and replace that one with the modifued one containing the new answer
+    // find question In QuestionNotifier and replace that one with the modified one containing the new answer
 
     int? indexOrNull =
         QuestionNotifier().premises.indexWhere((element) => element.questionID == widget.question.questionID);
@@ -77,26 +78,16 @@ class _QuestionScaleState extends State<QuestionScale> {
     } else {
       QuestionNotifier().currentQuestion = widget.question;
     }
-
-    //
-    // QuestionNotifier().premises[QuestionNotifier()
-    //     .premises
-    //     .indexWhere((element) => element.questionID == widget.question.questionID)] = widget.question;
-    //
-    //
-    // print("Widget question ID: ${widget.question.questionID}");
-    // print("Current question ID: ${QuestionNotifier().currentQuestion.questionID}");
-    // if (widget.question.questionID == QuestionNotifier().currentQuestion.questionID) {
-    //   print("Setting current question");
-    // }
   }
 
   @override
   void initState() {
     super.initState();
-    userID = "user!.uid";
     drawFirstAnswer(widget.answer);
     drawSecondaryAnswer(widget.secondAnswer);
+    print("QuestionScale initState");
+    print("widget.answer");
+    print(widget.answer);
   }
 
   double columnWidth(BuildContext context) => context.deviceWidth * 0.13;
@@ -208,19 +199,30 @@ class _QuestionScaleState extends State<QuestionScale> {
               height: context.deviceWidth * buttonSize,
               width: context.deviceWidth * buttonWidth,
             ),
-            SizedBox(
+            Container(
               width: context.deviceWidth * containerWidth,
               height: context.deviceWidth * containerWidth,
+              decoration: (!widget.changeable && (x && y))
+                  ? const BoxDecoration(
+                      // add gradient color of container if widget non changeable and both answers are the same
+                      // backgroundColor of OutlinedButton will be set to transparent so that gradient is visible
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(colors: [
+                        focusColor,
+                        Color(0xff8ea7ed),
+                      ]),
+                    )
+                  : null,
               child: OutlinedButton(
                 onPressed: () => widget.changeable ? answerQuestion(answerNumber) : null,
                 style: OutlinedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  side: BorderSide(
-                    width: 1.5,
-                    color: y ? Colors.red : Theme.of(context).colorScheme.secondary,
-                  ),
-                  backgroundColor: x ? const Color(0xFF1C4CDB) : Colors.white,
-                ),
+                    shape: const CircleBorder(),
+                    side: BorderSide(
+                      width: 1.5,
+                      color: Theme.of(context).colorScheme.secondary,
+                      // color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    backgroundColor: getBackgroundColor(x, y)),
                 child: const Text(''),
               ),
             ),
@@ -228,6 +230,24 @@ class _QuestionScaleState extends State<QuestionScale> {
         ),
       ],
     );
+  }
+
+  // get backgroundColor of Button depending on first and second answer
+  Color getBackgroundColor(bool x, bool y) {
+    if (widget.changeable) {
+      // if changeable version of question is created, initial y is set to
+      // same value as x -> then return just color for x value
+      return x ? focusColor : lightPrimaryContainer;
+    }
+    if (x && !y) {
+      return focusColor;
+    } else if (!x && y) {
+      return const Color(0xff8ea7ed);
+    } else if (x && y) {
+      return Colors.transparent;
+    } else {
+      return lightPrimaryContainer;
+    }
   }
 
   Widget buildColumn(BuildContext context, bool statement, String textFalse, String textTrue, int position,

@@ -1,7 +1,9 @@
-import 'package:background_experiment/contextExtension.dart';
+import 'dart:developer';
+
 import 'package:background_experiment/question.dart';
+import 'package:background_experiment/questionAnswerPair.dart';
+import 'package:background_experiment/questionContainer.dart';
 import 'package:background_experiment/questionNotifier.dart';
-import 'package:background_experiment/singleQuestion.dart';
 import 'package:background_experiment/userAnswerSender.dart';
 import 'package:background_experiment/waitingPage.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,8 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
   final scrollController = ScrollController();
   final questionNotifier = QuestionNotifier();
   String chatIdentifier = '';
+  final TextEditingController chatIdentifierController = TextEditingController();
+  static const Color focusColor = Color(0xFF1C4CDB);
 
   @override
   void initState() {
@@ -28,18 +32,22 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
   }
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final List<Creator> creators = [
-      const Creator(
-          creatorID: "",
-          name: "",
-          profilePicture: "",
-          titlePicture: "",
-          description: "",
-          private: false,
-          password: "",
-          isVisible: true)
-    ];
+    const Creator creators = Creator(
+        creatorID: "",
+        name: "",
+        profilePicture: "",
+        titlePicture: "",
+        description: "",
+        private: false,
+        password: "",
+        isVisible: true);
 
     return buildNewQuestions(context, questionNotifier.premises, creators);
   }
@@ -60,7 +68,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
     }
     userAnswers[questionNotifier.currentQuestion.questionID] = questionNotifier.currentQuestion.answerValue;
 
-    showDialog(
+    final ownUserID = await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -84,90 +92,127 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
           },
         );
       },
-    ).then((ownUserID) {
-      if (ownUserID == -1) {
-        return;
-      }
+    );
 
-      final otherUserID = ownUserID == 0 ? 1 : 0;
+    if (ownUserID == -1) {
+      log("Error adding user answers, chat is full");
+      return;
+    }
 
-      UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString()).then((value) {
-        if (value.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ComparePremises(
-                chatIdentifier: chatIdentifier,
-                ownAnswers: questionNotifier.questionAnswerPairs,
-                otherPersonsAnswers: value,
-              ),
-            ),
-          );
-        } else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WaitingPage(
-                      chatIdentifier: chatIdentifier,
-                      ownAnswers: questionNotifier.questionAnswerPairs,
-                      otherPersonsUserID: otherUserID.toString())));
-        }
-      });
-    });
+    final otherUserID = ownUserID == 0 ? 1 : 0;
+
+    List<QuestionAnswerPair> questionAnswerPair =
+        await UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString());
+
+    if (questionAnswerPair.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ComparePremises(
+            chatIdentifier: chatIdentifier,
+            ownAnswers: questionNotifier.questionAnswerPairs,
+            otherPersonsAnswers: questionAnswerPair,
+          ),
+        ),
+      );
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WaitingPage(
+                  chatIdentifier: chatIdentifier,
+                  ownAnswers: questionNotifier.questionAnswerPairs,
+                  otherPersonsUserID: otherUserID.toString())));
+    }
   }
 
-  Widget buildNewQuestions(BuildContext context, List<Question> questionItems, List<Creator> creators) {
+  Widget buildNewQuestions(BuildContext context, List<Question> questionItems, Creator creator) {
     return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: ListView(
-            controller: scrollController,
+          child: Column(
             children: [
               const SizedBox(
                 height: 15,
               ),
-              //Text input field to add a chat identifier
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: chatIdentifierController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        fillColor: Colors.white,
+                        labelText: 'Chat Identifikation',
+                      ),
+                      onChanged: (text) {
+                        chatIdentifier = text;
+                        chatIdentifier = chatIdentifier.trim();
+                      },
+                    ),
                   ),
-                  fillColor: Colors.white,
-                  labelText: 'Chat Identifikation',
-                ),
-                onChanged: (text) {
-                  chatIdentifier = text;
-                },
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.info_outline),
+                    onPressed: () {
+                      showToast(
+                        'Geben Sie eine eindeutige Chat-Identifikation ein. Ihr/e Partnerin muss die gleiche Identifikation eingeben, um die Fragen und Prämissen zu vergleichen.',
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 5),
+                        backgroundColor: focusColor,
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(
-                height: 15,
+                height: 5,
               ),
-              questionContainer(context, questionNotifier.currentQuestion, creators[0]),
-              const SizedBox(
-                height: 15,
-              ),
-              const Divider(),
-              const SizedBox(
-                height: 15,
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemCount: questionItems.length,
-                itemBuilder: (context, index) {
-                  return questionContainer(context, questionItems[index], creators[0]);
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    //Use of SizedBox
+              Expanded(
+                  child: ListView(
+                controller: scrollController,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  QuestionContainer(
+                    question: questionNotifier.currentQuestion,
+                    creator: creator,
+                  ),
+                  const SizedBox(
                     height: 15,
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 15,
-              ),
+                  ),
+                  const Divider(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    itemCount: questionItems.length,
+                    itemBuilder: (context, index) {
+                      return QuestionContainer(
+                        question: questionItems[index],
+                        creator: creator,
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        //Use of SizedBox
+                        height: 15,
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ],
+              )),
               Align(
                 alignment: Alignment.centerRight,
                 child: Directionality(
@@ -179,41 +224,8 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
             ],
           ),
         ));
-  }
-
-  Widget questionContainer(BuildContext context, Question question, Creator creator) {
-    return Container(
-      //big container that holds everything, a block
-      width: context.deviceWidth * 0.1,
-
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey, width: 1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-        child: Column(
-          children: [
-            ListTile(
-              title: SingleQuestion(
-                question: question,
-                creator: creator,
-                changeable: true,
-                answer: 0,
-                statement: question.isStatement,
-                secondAnswer: 0,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

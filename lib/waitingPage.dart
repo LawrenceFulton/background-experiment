@@ -64,6 +64,11 @@ class _WaitingPageState extends State<WaitingPage> {
             const SizedBox(
               height: 20,
             ),
+            const Text('Bitte warten Sie einen Moment, die Chatidentifikation für Ihre/n PartnerIn lautet wie folgt:'),
+            Text(widget.chatIdentifier, style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(
+              height: 20,
+            ),
             //add a loading spinner
             const CircularProgressIndicator(),
           ],
