@@ -1,5 +1,6 @@
 import 'package:background_experiment/new.dart';
 import 'package:background_experiment/questionCreator.dart';
+import 'package:background_experiment/topics.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -10,42 +11,43 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<String> topics = [
-    "Erbschaftssteuer",
-    "Debattenkultur",
-    "Frauenquote",
-    "Waffenlieferungen",
-    "Tempolimit",
-    "Grundeinkommen",
-    'Corona-Maßnahmen',
-    "Zigaretten",
-    "Smartphone",
-    "AfD-Verbot",
-  ];
+  List<Topic> _getAllTopics() {
+    return Topic.values.toList();
+  }
 
-  void setQuestions(String topic) {
-    if (topic == "Erbschaftssteuer") {
+  final List<Topic> topics = [];
+
+  @override
+  void initState() {
+    super.initState();
+    topics.addAll(_getAllTopics());
+  }
+
+  void setQuestions(Topic topic) {
+    if (topic == Topic.erbschaftsteuer) {
       QuestionCreator().setErbschaftssteuerQuestions();
-    } else if (topic == "Debattenkultur") {
-      QuestionCreator().setDebattenkulturQuestions();
-    } else if (topic == "Ananas") {
-      QuestionCreator().setAnanasQuestions();
-    } else if (topic == "Frauenquote") {
+    } else if (topic == Topic.frauenquote) {
       QuestionCreator().setFrauenquoteQuestions();
-    } else if (topic == "Waffenlieferungen") {
+    } else if (topic == Topic.waffenlieferungen) {
       QuestionCreator().setWaffenlieferungenQuestions();
-    } else if (topic == "Tempolimit") {
+    } else if (topic == Topic.tempolimit) {
       QuestionCreator().setTempolimitQuestions();
-    } else if (topic == "Grundeinkommen") {
+    } else if (topic == Topic.grundeinkommen) {
       QuestionCreator().setGrundeinkommenQuestions();
-    } else if (topic == 'Corona-Maßnahmen') {
+    } else if (topic == Topic.coronaMassnahmen) {
       QuestionCreator().setCoronaMassnahmenQuestions();
-    } else if (topic == "Zigaretten") {
-      QuestionCreator().setZigarettenkaufAlterQuestions();
-    } else if (topic == "Smartphone") {
+    } else if (topic == Topic.smartphoneVerbot) {
       QuestionCreator().setSmartphoneVerbotQuestions();
-    } else if (topic == "AfD-Verbot") {
+    } else if (topic == Topic.raumfahrt) {
+      QuestionCreator().setRaumfahrtQuestions();
+    } else if (topic == Topic.plastikdeckel) {
+      QuestionCreator().setPlastikLidQuestions();
+    } else if (topic == Topic.selbstbestimmungsgesetz) {
+      QuestionCreator().setSelfDeterminationLaw();
+    } else if (topic == Topic.afdVerbot) {
       QuestionCreator().setAfDVerbotQuestions();
+    } else if (topic == Topic.zigarettenverbot) {
+      QuestionCreator().setZigarettenkaufAlterQuestions();
     }
   }
 
@@ -61,8 +63,8 @@ class _HomeState extends State<Home> {
           children: [
             const Text('So kommst du in fünf Schritten ins Gespräch:\n'
                 '1. Gesprächspartner:in finden.\n'
-                '2. Eine Frage auswählen, auf die ihr unterschiedlich antworten würdet.\n'
-                '3. Namen für euren Chat besprechen und eingeben.\n'
+                '2. Die Frage auswählen die euch zugewiesen wurden ist..\n'
+                '3. Einzigartigen Namen für euren Chat besprechen und eingeben.\n'
                 '4. Frage und Prämissen beantworten und abschicken.\n'
                 '5. Antworten vergleichen und darauf basierend über die Frage diskutieren.\n'
                 'Über euer Feedback würden wir uns sehr freuen!'),
@@ -86,7 +88,7 @@ class _HomeState extends State<Home> {
                           ),
                         );
                       },
-                      child: Text(topics[index]),
+                      child: Text(topics[index].value),
                     ),
                   );
                 },

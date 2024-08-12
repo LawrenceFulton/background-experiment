@@ -85,9 +85,6 @@ class _QuestionScaleState extends State<QuestionScale> {
     super.initState();
     drawFirstAnswer(widget.answer);
     drawSecondaryAnswer(widget.secondAnswer);
-    print("QuestionScale initState");
-    print("widget.answer");
-    print(widget.answer);
   }
 
   double columnWidth(BuildContext context) => context.deviceWidth * 0.13;
