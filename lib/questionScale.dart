@@ -72,7 +72,6 @@ class _QuestionScaleState extends State<QuestionScale> {
 
     int? indexOrNull =
         QuestionNotifier().premises.indexWhere((element) => element.questionID == widget.question.questionID);
-    print("indexOrNull: $indexOrNull");
     if (indexOrNull != -1) {
       QuestionNotifier().premises[indexOrNull] = widget.question;
     } else {

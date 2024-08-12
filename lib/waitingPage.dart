@@ -3,39 +3,39 @@ import 'package:background_experiment/questionAnswerPair.dart';
 import 'package:background_experiment/userAnswerSender.dart';
 import 'package:flutter/material.dart';
 
-import 'compareQuestion.dart';
-
 class WaitingPage extends StatefulWidget {
-  final String chatIdentifier;
-  final List<QuestionAnswerPair> ownAnswers;
-  final String otherPersonsUserID;
-
-  const WaitingPage(
-      {super.key, required this.chatIdentifier, required this.otherPersonsUserID, required this.ownAnswers});
+  const WaitingPage();
 
   @override
   _WaitingPageState createState() => _WaitingPageState();
 }
 
 class _WaitingPageState extends State<WaitingPage> {
+  late String chatIdentifier;
+  late List<QuestionAnswerPair> ownAnswers;
+  late String otherPersonsUserID;
+
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    chatIdentifier = args['chatIdentifier'];
+    ownAnswers = args['ownAnswers'];
+    otherPersonsUserID = args['otherPersonsUserID'];
     subscribeToAnswers();
   }
 
   void subscribeToAnswers() {
-    UserAnswerSender().getUserAnswersStream(widget.chatIdentifier, widget.otherPersonsUserID).listen((value) {
+    UserAnswerSender().getUserAnswersStream(chatIdentifier, otherPersonsUserID).listen((value) {
       if (value.isNotEmpty) {
-        Navigator.push(
+        Navigator.pushNamed(
           context,
-          MaterialPageRoute(
-            builder: (context) => ComparePremises(
-              ownAnswers: widget.ownAnswers,
-              chatIdentifier: widget.chatIdentifier,
-              otherPersonsAnswers: value,
-            ),
-          ),
+          '/compare',
+          arguments: {
+            'chatIdentifier': chatIdentifier,
+            'ownAnswers': ownAnswers,
+            'otherPersonsAnswers': value,
+          },
         );
       }
     });
@@ -65,7 +65,7 @@ class _WaitingPageState extends State<WaitingPage> {
               height: 20,
             ),
             const Text('Bitte warten Sie einen Moment, die Chatidentifikation für Ihre/n PartnerIn lautet wie folgt:'),
-            Text(widget.chatIdentifier, style: const TextStyle(fontWeight: FontWeight.bold)),
+            Text(chatIdentifier, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 20,
             ),

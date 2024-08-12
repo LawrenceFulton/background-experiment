@@ -1,5 +1,7 @@
+import 'package:background_experiment/compareQuestion.dart';
 import 'package:background_experiment/home.dart';
 import 'package:background_experiment/questionNotifier.dart';
+import 'package:background_experiment/waitingPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
@@ -45,6 +47,11 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const Home(),
+        routes: {
+          '/home': (context) => const Home(),
+          '/waiting': (context) => const WaitingPage(),
+          '/compare': (context) => const ComparePremises(),
+        },
       ),
     );
   }

@@ -11,13 +11,7 @@ import 'package:flutter/material.dart';
 import 'creator.dart';
 
 class ComparePremises extends StatefulWidget {
-  final String chatIdentifier;
-  final List<QuestionAnswerPair> ownAnswers;
-  final List<QuestionAnswerPair> otherPersonsAnswers;
-
-  const ComparePremises(
-      {super.key, required this.chatIdentifier, required this.otherPersonsAnswers, required this.ownAnswers});
-
+  const ComparePremises();
   @override
   _ComparePremisesState createState() => _ComparePremisesState();
 }
@@ -25,9 +19,18 @@ class ComparePremises extends StatefulWidget {
 class _ComparePremisesState extends State<ComparePremises> with TickerProviderStateMixin {
   final scrollController = ScrollController();
   final questionNotifier = QuestionNotifier();
-  String chatIdentifier = '';
-  String otherPersonsUserID = '';
-  bool isOtherPersonVisible = false;
+  late String chatIdentifier;
+  late List<QuestionAnswerPair> ownAnswers;
+  late List<QuestionAnswerPair> otherPersonsAnswers;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    chatIdentifier = args['chatIdentifier'];
+    ownAnswers = args['ownAnswers'];
+    otherPersonsAnswers = args['otherPersonsAnswers'];
+  }
 
   @override
   void initState() {
@@ -39,7 +42,7 @@ class _ComparePremisesState extends State<ComparePremises> with TickerProviderSt
   }
 
   int getOwnAnswer(String questionID) {
-    final answer = widget.ownAnswers.firstWhereOrNull((element) => element.question == questionID);
+    final answer = ownAnswers.firstWhereOrNull((element) => element.question == questionID);
     if (answer != null) {
       return answer.answer;
     } else {
@@ -48,7 +51,7 @@ class _ComparePremisesState extends State<ComparePremises> with TickerProviderSt
   }
 
   int getOtherAnswer(String questionID) {
-    final answer = widget.otherPersonsAnswers.firstWhereOrNull((element) => element.question == questionID);
+    final answer = otherPersonsAnswers.firstWhereOrNull((element) => element.question == questionID);
     if (answer != null) {
       return answer.answer;
     } else {

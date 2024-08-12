@@ -5,11 +5,9 @@ import 'package:background_experiment/questionAnswerPair.dart';
 import 'package:background_experiment/questionContainer.dart';
 import 'package:background_experiment/questionNotifier.dart';
 import 'package:background_experiment/userAnswerSender.dart';
-import 'package:background_experiment/waitingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
-import 'compareQuestion.dart';
 import 'creator.dart';
 
 class NewQuestions extends StatefulWidget {
@@ -25,11 +23,8 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
   String chatIdentifier = '';
   final TextEditingController chatIdentifierController = TextEditingController();
   static const Color focusColor = Color(0xFF1C4CDB);
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool isSubmitted = false;
+  int ownUserID = -1;
 
   @override
   void dispose() {
@@ -53,6 +48,35 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
   }
 
   void onPressed() async {
+    if (isSubmitted) {
+      final otherUserID = ownUserID == 0 ? 1 : 0;
+      List<QuestionAnswerPair> questionAnswerPair =
+          await UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString());
+
+      if (questionAnswerPair.isNotEmpty) {
+        Navigator.pushNamed(
+          context,
+          '/compare',
+          arguments: {
+            'chatIdentifier': chatIdentifier,
+            'ownAnswers': questionNotifier.questionAnswerPairs,
+            'otherPersonsAnswers': questionAnswerPair,
+          },
+        );
+      } else {
+        Navigator.pushNamed(
+          context,
+          '/waiting',
+          arguments: {
+            'chatIdentifier': chatIdentifier,
+            'ownAnswers': questionNotifier.questionAnswerPairs,
+            'otherPersonsUserID': otherUserID.toString(),
+          },
+        );
+      }
+      return;
+    }
+
     if (chatIdentifier.isEmpty) {
       showToast(
         'Bitte geben Sie eine Chat Identifikation ein',
@@ -68,7 +92,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
     }
     userAnswers[questionNotifier.currentQuestion.questionID] = questionNotifier.currentQuestion.answerValue;
 
-    final ownUserID = await showDialog(
+    ownUserID = await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -105,25 +129,28 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
         await UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString());
 
     if (questionAnswerPair.isNotEmpty) {
-      Navigator.push(
+      Navigator.pushNamed(
         context,
-        MaterialPageRoute(
-          builder: (context) => ComparePremises(
-            chatIdentifier: chatIdentifier,
-            ownAnswers: questionNotifier.questionAnswerPairs,
-            otherPersonsAnswers: questionAnswerPair,
-          ),
-        ),
+        '/compare',
+        arguments: {
+          'chatIdentifier': chatIdentifier,
+          'ownAnswers': questionNotifier.questionAnswerPairs,
+          'otherPersonsAnswers': questionAnswerPair,
+        },
       );
     } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WaitingPage(
-                  chatIdentifier: chatIdentifier,
-                  ownAnswers: questionNotifier.questionAnswerPairs,
-                  otherPersonsUserID: otherUserID.toString())));
+      Navigator.pushNamed(
+        context,
+        '/waiting',
+        arguments: {
+          'chatIdentifier': chatIdentifier,
+          'ownAnswers': questionNotifier.questionAnswerPairs,
+          'otherPersonsUserID': otherUserID.toString(),
+        },
+      );
     }
+
+    isSubmitted = true;
   }
 
   Widget buildNewQuestions(BuildContext context, List<Question> questionItems, Creator creator) {
