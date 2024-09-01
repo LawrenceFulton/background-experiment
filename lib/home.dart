@@ -58,21 +58,21 @@ class _HomeState extends State<Home> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            const Text('So kommst du in fünf Schritten ins Gespräch:\n'
-                '1. Gesprächspartner:in finden.\n'
-                '2. Die Frage, die euch zugewiesen wurden ist auswählen.\n'
-                '3. Einzigartigen Namen für euren Chat besprechen und eingeben.\n'
-                '4. Frage und Prämissen beantworten und abschicken.\n'
-                '5. Antworten vergleichen und darauf basierend über die Frage diskutieren.\n'
-                'Über euer Feedback würden wir uns sehr freuen!'),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text('Wähle ein Thema aus:', style: TextStyle(fontSize: 20)),
-            Expanded(
-              child: ListView.builder(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text('So kommst du in fünf Schritten ins Gespräch:\n'
+                  '1. Gesprächspartner:in finden.\n'
+                  '2. Die Frage, die euch zugewiesen wurde, auswählen.\n'
+                  '3. Einzigartigen Namen für euren Chat besprechen und eingeben.\n'
+                  '4. Frage und Prämissen beantworten und abschicken.\n'
+                  '5. Antworten vergleichen und darauf basierend über die Frage diskutieren.\n'
+                  'Über euer Feedback würden wir uns sehr freuen!'),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text('Wähle ein Thema aus:', style: TextStyle(fontSize: 20)),
+              ListView.builder(
                 itemCount: topics.length,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -90,8 +90,8 @@ class _HomeState extends State<Home> {
                   );
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

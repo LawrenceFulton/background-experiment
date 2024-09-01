@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.2.6
   oktoast: ^3.4.0
 
+  collection: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -70,7 +70,7 @@ class _QuestionScaleState extends State<QuestionScale> {
 
     // find question In QuestionNotifier and replace that one with the modified one containing the new answer
 
-    int? indexOrNull =
+    final int indexOrNull =
         QuestionNotifier().premises.indexWhere((element) => element.questionID == widget.question.questionID);
     if (indexOrNull != -1) {
       QuestionNotifier().premises[indexOrNull] = widget.question;

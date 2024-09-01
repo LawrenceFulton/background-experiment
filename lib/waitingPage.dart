@@ -4,7 +4,7 @@ import 'package:background_experiment/userAnswerSender.dart';
 import 'package:flutter/material.dart';
 
 class WaitingPage extends StatefulWidget {
-  const WaitingPage();
+  const WaitingPage({super.key});
 
   @override
   _WaitingPageState createState() => _WaitingPageState();

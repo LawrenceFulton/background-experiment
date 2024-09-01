@@ -30,7 +30,7 @@ class QuestionNotifier with ChangeNotifier {
   }
 
   List<QuestionAnswerPair> get questionAnswerPairs {
-    List<QuestionAnswerPair> pairs = [];
+    final List<QuestionAnswerPair> pairs = [];
     for (Question question in _premises) {
       pairs.add(QuestionAnswerPair(question: question.questionID, answer: question.answerValue));
     }

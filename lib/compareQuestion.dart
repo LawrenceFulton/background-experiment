@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'creator.dart';
 
 class ComparePremises extends StatefulWidget {
-  const ComparePremises();
+  const ComparePremises({super.key});
   @override
   _ComparePremisesState createState() => _ComparePremisesState();
 }

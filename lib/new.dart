@@ -50,7 +50,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
   void onPressed() async {
     if (isSubmitted) {
       final otherUserID = ownUserID == 0 ? 1 : 0;
-      List<QuestionAnswerPair> questionAnswerPair =
+      final List<QuestionAnswerPair> questionAnswerPair =
           await UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString());
 
       if (questionAnswerPair.isNotEmpty) {
@@ -86,7 +86,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
       return;
     }
 
-    Map<String, int> userAnswers = {};
+    final Map<String, int> userAnswers = {};
     for (var question in questionNotifier.premises) {
       userAnswers[question.questionID] = question.answerValue;
     }
@@ -125,7 +125,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
 
     final otherUserID = ownUserID == 0 ? 1 : 0;
 
-    List<QuestionAnswerPair> questionAnswerPair =
+    final List<QuestionAnswerPair> questionAnswerPair =
         await UserAnswerSender().getUserAnswers(chatIdentifier, otherUserID.toString());
 
     if (questionAnswerPair.isNotEmpty) {

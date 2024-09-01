@@ -7,7 +7,7 @@ class UserAnswerSender {
   Future<int> addUserAnswer(Map<String, int> userAnswers, String chatIdentifier, String questionTitle) async {
     final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
     //make a list of all the user answers and then add them to the collection with the user ID as the document ID
-    List<Map<String, dynamic>> userAnswersList = [];
+    final List<Map<String, dynamic>> userAnswersList = [];
     userAnswers.forEach((questionID, answerValue) {
       userAnswersList.add({
         'questionID': questionID,
@@ -16,9 +16,9 @@ class UserAnswerSender {
     });
 
     var userID = 0;
-    var docSnapshot = await collectionRef.get();
+    final docSnapshot = await collectionRef.get();
     if (docSnapshot.exists) {
-      var data = docSnapshot.data();
+      final data = docSnapshot.data();
       if (data != null) {
         if (data.containsKey('0')) {
           userID = 1;
@@ -54,12 +54,12 @@ class UserAnswerSender {
 
   Future<List<QuestionAnswerPair>> getUserAnswers(String chatIdentifier, String otherUserID) async {
     final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
-    var docSnapshot = await collectionRef.get();
+    final docSnapshot = await collectionRef.get();
     if (docSnapshot.exists) {
-      var data = docSnapshot.data();
+      final data = docSnapshot.data();
       if (data != null) {
         if (data.containsKey(otherUserID)) {
-          List<Map<String, dynamic>> firestoreData = List<Map<String, dynamic>>.from(data[otherUserID]);
+          final List<Map<String, dynamic>> firestoreData = List<Map<String, dynamic>>.from(data[otherUserID]);
           return firestoreData
               .map((item) => QuestionAnswerPair(
                     question: item['questionID'].toString(),
@@ -77,9 +77,9 @@ class UserAnswerSender {
 
     return collectionRef.snapshots().map((docSnapshot) {
       if (docSnapshot.exists) {
-        var data = docSnapshot.data();
+        final data = docSnapshot.data();
         if (data != null && data.containsKey(otherUserID)) {
-          List<Map<String, dynamic>> firestoreData = List<Map<String, dynamic>>.from(data[otherUserID]);
+          final List<Map<String, dynamic>> firestoreData = List<Map<String, dynamic>>.from(data[otherUserID]);
           return firestoreData
               .map((item) => QuestionAnswerPair(
                     question: item['questionID'].toString(),
