@@ -17,7 +17,8 @@ class QuestionContainer extends StatelessWidget {
   });
 
   int _getOwnAnswer(String questionID) {
-    final int indexOrNull = QuestionNotifier().premises.indexWhere((element) => element.questionID == question.questionID);
+    final int indexOrNull =
+        QuestionNotifier().premises.indexWhere((element) => element.questionID == question.questionID);
 
     if (indexOrNull != -1) {
       return QuestionNotifier().premises[indexOrNull].answerValue;

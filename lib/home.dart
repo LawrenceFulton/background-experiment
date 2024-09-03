@@ -10,11 +10,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final List<Topic> topics = [];
+
   List<Topic> _getAllTopics() {
     return Topic.values.toList();
   }
-
-  final List<Topic> topics = [];
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
         title: const Text('Background'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -72,23 +72,24 @@ class _HomeState extends State<Home> {
                 height: 20,
               ),
               const Text('Wähle ein Thema aus:', style: TextStyle(fontSize: 20)),
-              ListView.builder(
-                itemCount: topics.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        setQuestions(topics[index]);
-                        Navigator.pushNamed(
-                          context,
-                          '/new',
-                        );
-                      },
-                      child: Text(topics[index].value),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var topic in topics)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setQuestions(topic);
+                          Navigator.pushNamed(
+                            context,
+                            '/new',
+                          );
+                        },
+                        child: Text(topic.value),
+                      ),
                     ),
-                  );
-                },
+                ],
               ),
             ],
           ),
