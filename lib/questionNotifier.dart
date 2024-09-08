@@ -21,9 +21,7 @@ class QuestionNotifier with ChangeNotifier {
   }
 
   List<Question> _premises = [];
-
   List<Question> get premises => _premises;
-
   set premises(List<Question> value) {
     _premises = value;
     notifyListeners();

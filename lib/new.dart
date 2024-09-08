@@ -92,6 +92,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
     }
     userAnswers[questionNotifier.currentQuestion.questionID] = questionNotifier.currentQuestion.answerValue;
 
+    print('questionNotifier.currentQuestion.headline: ${questionNotifier.currentQuestion.headline} inside onPressed');
     ownUserID = await showDialog(
       context: context,
       barrierDismissible: false,

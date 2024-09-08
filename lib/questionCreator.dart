@@ -18,6 +18,7 @@ class QuestionCreator {
   void _setQuestions(String mainQuestionID, String mainQuestionText, String mainQuestionHeadline,
       List<Map<String, dynamic>> premises) {
     final Question mainQuestion = _generateQuestion(mainQuestionID, mainQuestionText, mainQuestionHeadline);
+    print("mainQuestion: $mainQuestion");
     final List<Question> premiseQuestions = premises.map((premise) {
       return _generateQuestion(
         premise['id'],
@@ -34,8 +35,8 @@ class QuestionCreator {
   void setErbschaftssteuerQuestions() {
     _setQuestions(
       'q0',
+      'Bist du der Meinung, dass der Steuersatz auf Erbschaften in Deutschland zu niedrig ist?',
       'Erbschaftssteuer',
-      '',
       [
         {'id': 'p1', 'text': 'Ist die wirtschaftliche Ungleichheit in Deutschland zu groß?'},
         {

@@ -6,10 +6,8 @@ class Question {
   final String creatorID;
   final bool wasEdited;
   final String userID;
-  int _answerValue;
+  int answerValue;
   final List<String>? alternativeScale;
-
-  int get answerValue => _answerValue;
 
   Question({
     required this.questionID,
@@ -20,9 +18,11 @@ class Question {
     required this.wasEdited,
     required this.userID,
     this.alternativeScale,
-  }) : _answerValue = 0;
+    this.answerValue = 0,
+  });
 
-  set answerValue(int value) {
-    _answerValue = value;
+  @override
+  String toString() {
+    return 'Question{questionID: $questionID, text: $text, headline: $headline, isStatement: $isStatement, creatorID: $creatorID, wasEdited: $wasEdited, userID: $userID, answerValue: $answerValue, alternativeScale: $alternativeScale}';
   }
 }

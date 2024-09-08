@@ -1,11 +1,19 @@
+import 'package:background_experiment/enum/app_variant.dart';
 import 'package:background_experiment/questionAnswerPair.dart';
+import 'package:background_experiment/service/variant_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
 class UserAnswerSender {
+  CollectionReference<Map<String, dynamic>> get _chatCollection {
+    final AppVariant variant = VariantService().variant;
+    return FirebaseFirestore.instance.collection('chat-${variant.name}');
+  }
+
   Future<int> addUserAnswer(Map<String, int> userAnswers, String chatIdentifier, String questionTitle) async {
-    final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
+    print("questionTitle: $questionTitle inside addUserAnswer");
+    final collectionRef = _chatCollection.doc(chatIdentifier);
     //make a list of all the user answers and then add them to the collection with the user ID as the document ID
     final List<Map<String, dynamic>> userAnswersList = [];
     userAnswers.forEach((questionID, answerValue) {
@@ -53,7 +61,7 @@ class UserAnswerSender {
   }
 
   Future<List<QuestionAnswerPair>> getUserAnswers(String chatIdentifier, String otherUserID) async {
-    final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
+    final collectionRef = _chatCollection.doc(chatIdentifier);
     final docSnapshot = await collectionRef.get();
     if (docSnapshot.exists) {
       final data = docSnapshot.data();
@@ -73,7 +81,7 @@ class UserAnswerSender {
   }
 
   Stream<List<QuestionAnswerPair>> getUserAnswersStream(String chatIdentifier, String otherUserID) {
-    final collectionRef = FirebaseFirestore.instance.collection('chat').doc(chatIdentifier);
+    final collectionRef = _chatCollection.doc(chatIdentifier);
 
     return collectionRef.snapshots().map((docSnapshot) {
       if (docSnapshot.exists) {

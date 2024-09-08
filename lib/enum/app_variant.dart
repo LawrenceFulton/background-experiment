@@ -1,0 +1,4 @@
+enum AppVariant {
+  changeSchool,
+  normal,
+}
