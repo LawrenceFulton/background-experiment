@@ -475,4 +475,110 @@ class QuestionCreator {
       ],
     );
   }
+
+  void setAutoverbotQuestions() {
+    _setQuestions(
+      'q0',
+      'Sollte das Fahren, Bringen und Abholen zu deiner Schule mit dem Auto für alle verboten werden?',
+      'Autoverbot an Schulen',
+      [
+        {
+          'id': 'p1',
+          'text':
+              'Ist der Verkehr an und zu deiner Schule ein Problem?'
+        },
+        {
+          'id': 'p2',
+          'text': 'Glaubst du, dass alle eine gute Alternative zur Verfügung hätten?'
+        },
+        {
+          'id': 'p3',
+          'text': 'Sollte das Verbot eingeführt werden, wenn alle eine gute Alternative zur Verfügung hätten?'
+        },
+        {
+          'id': 'p4',
+          'text':
+              'Ist es eher individuelle, persönliche Verantwortung oder gesellschaftliche Verantwortung, mehr gegen den Klimawandel zu tun?',
+          'alternativeScale': ['Individuelle', 'Gesellschaftliche']
+        },
+      ],
+    );
+  }
+
+  void setVeggieMensaQuestions() {
+    _setQuestions(
+      'q0',
+      'Sollte es nur noch vegetarisches Essen in deiner Schule geben?',
+      'Vegetarische Mensa',
+      [
+        {
+          'id': 'p1',
+          'text':
+              'Wie viele Schüler*innen und Lehrer*innen würden dann weniger gerne in der Schule essen?',
+          'alternativeScale': ['Keine', 'Alle']
+        },
+        {
+          'id': 'p2',
+          'text': 'Würde das Essen dadurch gesünder oder ungesünder?',
+        'alternativeScale': ['Gesünder', 'Ungesünder']
+        },
+        {
+          'id': 'p3',
+          'text': 'Würde das Essen dadurch billiger oder teurer?',
+        'alternativeScale': ['Billiger', 'Teurer']
+
+        },
+        {'id': 'p4', 'text': 'Tut unsere Gesellschaft insgesamt genug gegen den Klimawandel?'},
+        {'id': 'p5', 'text': 'Ist es eher individuelle, persönliche Verantwortung oder gesellschaftliche Verantwortung, mehr gegen den Klimawandel zu tun?',
+        'alternativeScale': ['Individuelle', 'Gesellschaftliche']
+        },
+      ],
+    );
+  }
+
+  void setSchulMitebestimmungsQuestions() {
+    _setQuestions(
+      'q0',
+      'Sollte an deiner Schule über ein Teil des Schuldbudgets ausschließlich von Schüler*innen entschieden werden?',
+      'Mitbestimmung der Schüler*innen',
+      [
+        {
+          'id': 'p1',
+          'text':
+          'Würde die Schüler*innenschaft das Geld sinnvoll einsetzen?'
+        },
+        {
+          'id': 'p2',
+          'text': 'Findest du, dass Schüler*innen an deiner Schule aktuell genug Mitbestimmungsmöglichkeiten haben?'
+        },
+        {
+          'id': 'p3',
+          'text': 'Glaubst du, dass die Schüler*innen fähig sind, selbstbestimmt und demokratisch über die Verwendung zu entscheiden?'
+        },
+        {'id': 'p4', 'text': 'Werden Schulen ihrer Verantwortung zur demokratischen Bildung zurzeit gerecht?'},
+      ],
+    );
+  }
+
+  void setNachhaltigkeitsQuestions() {
+    _setQuestions(
+      'q0',
+      'Sollten in allen Fächern, sofern inhaltlich möglich, die Fachinhalte aus der Perspektive der Nachhaltigkeit reflektiert werden?',
+      'Nachhaltigkeit im Unterricht',
+      [
+        {
+          'id': 'p1',
+          'text':
+              'Spielt Nachhaltigkeit eine große Rolle an deiner Schule?'
+        },
+        {
+          'id': 'p2',
+          'text': 'Sollte deine Schule Nachhaltig aktiv als wichtigen Grundwert vermitteln?'
+        },
+      {'id': 'p3', 'text': 'Ist es eher individuelle, persönliche Verantwortung oder gesellschaftliche Verantwortung, mehr gegen den Klimawandel zu tun?',
+      'alternativeScale': ['Individuelle', 'Gesellschaftliche']
+      },
+      ],
+    );
+  }
 }

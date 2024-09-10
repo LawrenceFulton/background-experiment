@@ -10,7 +10,11 @@ enum Topic {
   plastikdeckel("Plastikdeckel"),
   selbstbestimmungsgesetz("Selbstbestimmungsgesetz"),
   afdVerbot("AfD-Verbot"),
-  zigarettenverbot("Zigarettenverbot");
+  zigarettenverbot("Zigarettenverbot"),
+  autoverbot("Autoverbot an Schulen"),
+  veggiemensa("Vegetarische Mensa"),
+  mitbestimmung("Mitbestimmung der Schüler*innen"),
+  nachhaltigkeit("Nachhaltigkeit im Unterricht");
 
   const Topic(this.value);
   final String value;

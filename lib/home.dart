@@ -2,8 +2,10 @@ import 'package:background_experiment/enum/app_variant.dart';
 import 'package:background_experiment/questionCreator.dart';
 import 'package:background_experiment/service/variant_service.dart';
 import 'package:background_experiment/topics.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:html' as html;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,6 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Topic> topics = [];
+  final List<Topic> changeSchoolTopics = [];
 
   List<Topic> _getAllTopics() {
     return Topic.values.toList();
@@ -22,7 +25,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    topics.addAll(_getAllTopics());
+    final List<Topic> allTopics = _getAllTopics();
+    topics.addAll(allTopics.sublist(0, 12));
+    changeSchoolTopics.addAll(allTopics.sublist(12));
   }
 
   void setQuestions(Topic topic) {
@@ -50,6 +55,14 @@ class _HomeState extends State<Home> {
       QuestionCreator().setAfDVerbotQuestions();
     } else if (topic == Topic.zigarettenverbot) {
       QuestionCreator().setZigarettenkaufAlterQuestions();
+    } else if (topic == Topic.autoverbot) {
+      QuestionCreator().setAutoverbotQuestions();
+    } else if (topic == Topic.veggiemensa) {
+      QuestionCreator().setVeggieMensaQuestions();
+    } else if (topic == Topic.mitbestimmung) {
+      QuestionCreator().setSchulMitebestimmungsQuestions();
+    } else if (topic == Topic.nachhaltigkeit) {
+      QuestionCreator().setNachhaltigkeitsQuestions();
     }
   }
 
@@ -119,7 +132,7 @@ class _HomeState extends State<Home> {
   Widget changeSchoolWidget(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Change School'),
+        title: const Text('¡Change School! Day 2024 in Aachen'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -128,11 +141,14 @@ class _HomeState extends State<Home> {
             children: [
               const Text('So kommst du in fünf Schritten ins Gespräch:\n'
                   '1. Gesprächspartner:in finden.\n'
-                  '2. Die Frage, die euch zugewiesen wurde, auswählen.\n'
-                  '3. Einzigartigen Namen für euren Chat besprechen und eingeben.\n'
-                  '4. Frage und Prämissen beantworten und abschicken.\n'
-                  '5. Antworten vergleichen und darauf basierend über die Frage diskutieren.\n'
-                  'Über euer Feedback würden wir uns sehr freuen!'),
+                  '2. Frage auswählen.\n'
+                  '3. Einzigartigen Namen für euren Chat besprechen und eingeben, damit ihr gematched werden könnt.\n'
+                  '4. Individuell die Frage und die Prämissen beantworten und abschicken.\n'
+                  '5. Antworten vergleichen und über die Unterschiede und Gemeinsamkeiten eurer Standpunkte diskutieren.\n'
+                  '\n'
+                  'Nach der Diskussion:\n'
+                  'Nutzt die Diskussionspunkte, um Ideen für konkrete Veränderungen in eurer Schule zu entwickeln. Tauscht euch über mögliche nächste Schritte aus, die ihr gemeinsam umsetzen könnt.\n'
+                  ),
               const SizedBox(
                 height: 20,
               ),
@@ -140,7 +156,7 @@ class _HomeState extends State<Home> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  for (var topic in topics)
+                  for (var topic in changeSchoolTopics)
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
@@ -156,10 +172,29 @@ class _HomeState extends State<Home> {
                     ),
                 ],
               ),
-            ],
+              const SizedBox(
+                height: 20,
+              ),
+          RichText(
+            text: TextSpan(
+              children: [
+                const TextSpan(
+                  text: 'Dir hat die Diskussion gefallen und du möchtest mehr erfahren? '
+                      'Finde mehr über Background heraus bei ',
+                  style: const TextStyle(color: Colors.black),
+                ),
+                TextSpan(
+                  text: 'Aachen was geht!?',
+                  style: const TextStyle(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => html.window.open('https://aachenwasgeht.de/stadtgestaltung/', 'hi')
+                ),
+              ],
+            ),
           ),
+          ],
         ),
       ),
-    );
+    ));
   }
 }
