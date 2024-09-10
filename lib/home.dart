@@ -131,70 +131,68 @@ class _HomeState extends State<Home> {
 
   Widget changeSchoolWidget(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('¡Change School! Day 2024 in Aachen'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Text('So kommst du in fünf Schritten ins Gespräch:\n'
-                  '1. Gesprächspartner:in finden.\n'
-                  '2. Frage auswählen.\n'
-                  '3. Einzigartigen Namen für euren Chat besprechen und eingeben, damit ihr gematched werden könnt.\n'
-                  '4. Individuell die Frage und die Prämissen beantworten und abschicken.\n'
-                  '5. Antworten vergleichen und über die Unterschiede und Gemeinsamkeiten eurer Standpunkte diskutieren.\n'
-                  '\n'
-                  'Nach der Diskussion:\n'
-                  'Nutzt die Diskussionspunkte, um Ideen für konkrete Veränderungen in eurer Schule zu entwickeln. Tauscht euch über mögliche nächste Schritte aus, die ihr gemeinsam umsetzen könnt.\n'
-                  ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text('Wähle ein Thema aus:', style: TextStyle(fontSize: 20)),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (var topic in changeSchoolTopics)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setQuestions(topic);
-                          Navigator.pushNamed(
-                            context,
-                            '/new',
-                          );
-                        },
-                        child: Text(topic.value),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-          RichText(
-            text: TextSpan(
+        appBar: AppBar(
+          title: const Text('¡Change School! Day 2024 in Aachen'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                const TextSpan(
-                  text: 'Dir hat die Diskussion gefallen und du möchtest mehr erfahren? '
-                      'Finde mehr über Background heraus bei ',
-                  style: const TextStyle(color: Colors.black),
+                const Text('So kommst du in fünf Schritten ins Gespräch:\n'
+                    '1. Gesprächspartner:in finden.\n'
+                    '2. Frage auswählen.\n'
+                    '3. Einzigartigen Namen für euren Chat besprechen und eingeben, damit ihr gematched werden könnt.\n'
+                    '4. Individuell die Frage und die Prämissen beantworten und abschicken.\n'
+                    '5. Antworten vergleichen und über die Unterschiede und Gemeinsamkeiten eurer Standpunkte diskutieren.\n'
+                    '\n'
+                    'Nach der Diskussion:\n'
+                    'Nutzt die Diskussionspunkte, um Ideen für konkrete Veränderungen in eurer Schule zu entwickeln. Tauscht euch über mögliche nächste Schritte aus, die ihr gemeinsam umsetzen könnt.\n'),
+                const SizedBox(
+                  height: 20,
                 ),
-                TextSpan(
-                  text: 'Aachen was geht!?',
-                  style: const TextStyle(color: Colors.blue),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => html.window.open('https://aachenwasgeht.de/stadtgestaltung/', 'hi')
+                const Text('Wähle ein Thema aus:', style: TextStyle(fontSize: 20)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (var topic in changeSchoolTopics)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setQuestions(topic);
+                            Navigator.pushNamed(
+                              context,
+                              '/new',
+                            );
+                          },
+                          child: Text(topic.value),
+                        ),
+                      ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Dir hat die Diskussion gefallen und du möchtest mehr erfahren? '
+                            'Finde mehr über Background heraus bei ',
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      TextSpan(
+                          text: 'Aachen was geht!?',
+                          style: const TextStyle(color: Colors.blue),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => html.window.open('https://aachenwasgeht.de/stadtgestaltung/', 'hi')),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          ],
-        ),
-      ),
-    ));
+        ));
   }
 }
