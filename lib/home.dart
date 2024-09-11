@@ -179,14 +179,15 @@ class _HomeState extends State<Home> {
                     children: [
                       const TextSpan(
                         text: 'Dir hat die Diskussion gefallen und du möchtest mehr erfahren? '
-                            'Finde mehr über Background heraus bei ',
+                            'Finde mehr über die Begegnungsbänke und Background heraus bei ',
                         style: const TextStyle(color: Colors.black),
                       ),
                       TextSpan(
                           text: 'Aachen was geht!?',
                           style: const TextStyle(color: Colors.blue),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => html.window.open('https://aachenwasgeht.de/stadtgestaltung/', 'hi')),
+                            ..onTap = () => html.window.open(
+                                'https://aachenwasgeht.de/das-projekt-begegnungsbaenke-und-die-background-app/', 'hi')),
                     ],
                   ),
                 ),

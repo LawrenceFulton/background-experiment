@@ -60,11 +60,11 @@ class _WaitingPageState extends State<WaitingPage> {
             const SizedBox(
               height: 20,
             ),
-            const Text('Warte auf Antwort von Ihrer/m GesprächspartnerIn'),
+            const Text('Warte auf Antwort von deinem/r Gesprächspartner/in'),
             const SizedBox(
               height: 20,
             ),
-            const Text('Bitte warten Sie einen Moment, die Chatidentifikation für Ihre/n PartnerIn lautet wie folgt:'),
+            const Text('Bitte warte einen Moment, die Chatidentifikation für deine/n Partner/in lautet wie folgt:'),
             Text(chatIdentifier, style: const TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 20,
