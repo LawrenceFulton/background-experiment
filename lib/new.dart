@@ -98,8 +98,7 @@ class _NewQuestionsState extends State<NewQuestions> with TickerProviderStateMix
       barrierDismissible: false,
       builder: (BuildContext context) {
         return FutureBuilder<int>(
-          future:
-              UserAnswerSender().addUserAnswer(userAnswers, chatIdentifier, questionNotifier.currentQuestion.headline),
+          future: UserAnswerSender().addUserAnswer(userAnswers, chatIdentifier, questionNotifier.currentQuestion),
           builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const AlertDialog(

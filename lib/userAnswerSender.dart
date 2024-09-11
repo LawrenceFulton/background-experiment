@@ -1,7 +1,10 @@
 import 'package:background_experiment/enum/app_variant.dart';
+import 'package:background_experiment/question.dart';
 import 'package:background_experiment/questionAnswerPair.dart';
+import 'package:background_experiment/questionNotifier.dart';
 import 'package:background_experiment/service/variant_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -11,14 +14,17 @@ class UserAnswerSender {
     return FirebaseFirestore.instance.collection('chat-${variant.name}');
   }
 
-  Future<int> addUserAnswer(Map<String, int> userAnswers, String chatIdentifier, String questionTitle) async {
-    print("questionTitle: $questionTitle inside addUserAnswer");
+  Future<int> addUserAnswer(Map<String, int> userAnswers, String chatIdentifier, Question question) async {
+    final premises = QuestionNotifier().premises;
+
     final collectionRef = _chatCollection.doc(chatIdentifier);
     //make a list of all the user answers and then add them to the collection with the user ID as the document ID
     final List<Map<String, dynamic>> userAnswersList = [];
     userAnswers.forEach((questionID, answerValue) {
+      final questionText = premises.firstWhereOrNull((element) => element.questionID == questionID)?.text ?? '';
       userAnswersList.add({
         'questionID': questionID,
+        'questionText': questionText,
         'answerValue': answerValue,
       });
     });
@@ -44,7 +50,8 @@ class UserAnswerSender {
 
     try {
       await collectionRef.set({
-        'questionTitle': questionTitle,
+        'questionTitle': question.headline,
+        'questionText': question.text,
         userID.toString(): userAnswersList,
       }, SetOptions(merge: true));
       return userID;
