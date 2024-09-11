@@ -7,6 +7,8 @@ import 'package:background_experiment/questionNotifier.dart';
 import 'package:background_experiment/singleQuestion.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'dart:html' as html;
 
 import 'creator.dart';
 
@@ -126,6 +128,23 @@ class _ComparePremisesState extends State<ComparePremises> with TickerProviderSt
               ),
               const SizedBox(
                 height: 20,
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(
+                      text: 'Dir hat die Diskussion gefallen und du möchtest mehr erfahren? '
+                          'Finde mehr über die Begegnungsbänke und Background heraus bei ',
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    TextSpan(
+                        text: 'Aachen was geht!?',
+                        style: const TextStyle(color: Colors.blue, fontSize: 16),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => html.window.open(
+                              'https://aachenwasgeht.de/das-projekt-begegnungsbaenke-und-die-background-app/', 'hi')),
+                  ],
+                ),
               ),
             ],
           ),
