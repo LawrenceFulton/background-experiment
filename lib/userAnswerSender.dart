@@ -22,9 +22,12 @@ class UserAnswerSender {
     final List<Map<String, dynamic>> userAnswersList = [];
     userAnswers.forEach((questionID, answerValue) {
       final questionText = premises.firstWhereOrNull((element) => element.questionID == questionID)?.text ?? '';
+      final alternativeScale =
+          premises.firstWhereOrNull((element) => element.questionID == questionID)?.alternativeScale;
       userAnswersList.add({
         'questionID': questionID,
         'questionText': questionText,
+        'alternativeScale': alternativeScale,
         'answerValue': answerValue,
       });
     });
