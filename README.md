@@ -1,17 +1,30 @@
-# background_experiment
+# Background Discussion Experiment
 
-An Background Discussion Experiment
+This is a simple experiment to test the background discussion features of the Background app. 
+This is to be used in a hybrid setting where people are in the same room and can discuss different topics and be assisted by the app to enable quick and to the point discussions.
 
-## Getting Started
+The topics are currently hardcoded in the app and are as follows:
+- Erbschaftsteuer
+- Frauenquote
+- Waffenlieferungen
+- Tempolimit
+- Grundeinkommen
+- Corona-Maßnahmen
+- Smartphone-Verbot
+- Raumfahrt
+- Plastikdeckel
+- Selbstbestimmungsgesetz
+- AfD-Verbot
+- Zigarettenverbot
+- Autoverbot an Schulen
+- Vegetarische Mensa
+- Mitbestimmung der Schüler*innen
+- Nachhaltigkeit im Unterricht
+- Mitbestimmung
+- Nachhaltigkeit
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# background-experiment
+The backend is currently a firebase instance which can be swapped out for a different firebase instance.
+A demo instance is currently running at https://background-debates.de/ and can be used for testing. 
+Even though the app is written in Flutter, it is only available for Web.
